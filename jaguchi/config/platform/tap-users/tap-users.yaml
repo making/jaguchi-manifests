@@ -23,10 +23,10 @@ metadata:
   name: #@ data.values.service_account
   namespace: #@ user.name
 secrets:
-- name: registry-credentials
+#! - name: registry-credentials
 - name: git-ssh
 imagePullSecrets:
-- name: registry-credentials
+#! - name: registry-credentials
 - name: tap-registry
 ---
 apiVersion: rbac.authorization.k8s.io/v1
