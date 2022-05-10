@@ -1,0 +1,18 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: kapp.k14s.io/v1alpha1
+kind: Config
+rebaseRules:
+- paths:
+  - [ data ]
+  type: copy
+  sources: [ existing, new ]
+  resourceMatchers:
+  - andMatcher:
+      matchers:
+      #@ for user in data.values.users:
+      - kindNamespaceNameMatcher:
+          kind: Secret
+          namespace: #@ user.name
+          name: git-ssh
+      #@ end

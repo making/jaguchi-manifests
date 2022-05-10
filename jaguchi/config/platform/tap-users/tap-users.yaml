@@ -18,6 +18,15 @@ data:
   .dockerconfigjson: e30K
 ---
 apiVersion: v1
+kind: Secret
+metadata:
+  name: git-ssh
+  namespace: #@ user.name
+type: kubernetes.io/ssh-auth
+data:
+  ssh-privatekey: ""
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: #@ data.values.service_account
