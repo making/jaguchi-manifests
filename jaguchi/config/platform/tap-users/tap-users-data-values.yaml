@@ -1,4 +1,4 @@
-service_account: supplychain
+service_account: default
 users:
 - name: making
   email: tmaki@vmware.com
