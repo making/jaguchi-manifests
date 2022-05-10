@@ -23,8 +23,8 @@ metadata:
   name: git-ssh
   namespace: #@ user.name
 type: kubernetes.io/ssh-auth
-data:
-  ssh-privatekey: ""
+stringData:
+  ssh-privatekey: dummy
 ---
 apiVersion: v1
 kind: ServiceAccount
