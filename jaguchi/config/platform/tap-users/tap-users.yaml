@@ -33,6 +33,7 @@ metadata:
   namespace: #@ user.name
 secrets:
 #! - name: registry-credentials
+- name: tap-registry
 - name: git-ssh
 imagePullSecrets:
 #! - name: registry-credentials
