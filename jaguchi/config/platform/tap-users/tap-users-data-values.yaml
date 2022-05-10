@@ -1,0 +1,6 @@
+service_account: supplychain
+users:
+- name: making
+  email: tmaki@vmware.com
+  roles:
+  - app-editor
