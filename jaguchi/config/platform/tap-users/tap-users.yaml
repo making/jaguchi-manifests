@@ -24,7 +24,7 @@ metadata:
   namespace: #@ user.name
 type: kubernetes.io/ssh-auth
 stringData:
-  ssh-privatekey: dummy
+  ssh-privatekey: 🔑
 ---
 apiVersion: v1
 kind: ServiceAccount
