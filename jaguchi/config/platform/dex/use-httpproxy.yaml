@@ -1,0 +1,21 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:data", "data")
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: dex
+  namespace: dex
+spec:
+  virtualhost:
+    fqdn: #@ "dex.{}".format(data.values.base_domain)
+    tls:
+      secretName: #@ "{}/{}".format(data.values.default_tls.namespace, data.values.default_tls.secret_name)
+  routes:
+  - services:
+    - name: dex
+      port: 5556
+---
+
+#@overlay/match by=overlay.subset({"kind": "Ingress"})
+#@overlay/remove
+---

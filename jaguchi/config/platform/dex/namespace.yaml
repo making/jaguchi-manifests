@@ -1,0 +1,12 @@
+#@ load("@ytt:overlay", "overlay")
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dex
+#@ for kind in [ "Service", "Deployment", "Ingress", "Secret", "ServiceAccount", "Role", "RoleBinding" ]:
+#@overlay/match by=overlay.subset({"kind":kind})
+---
+metadata:
+  #@overlay/match missing_ok=True
+  namespace: dex
+#@ end

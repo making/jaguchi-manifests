@@ -1,0 +1,57 @@
+#@ load("@ytt:data", "data")
+
+#! https://github.com/dexidp/helm-charts
+config:
+  issuer: #@ "https://dex.{}".format(data.values.base_domain)
+  expiry:
+    signingKeys: "180m"
+    idTokens: "180m"
+  logger:
+    level: "debug"
+    format: "json"
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  enablePasswordDB: false
+  oauth2:
+    skipApprovalScreen: true
+  connectors:
+  - type: github
+    id: github
+    name: GitHub
+    config:
+      clientID: #@ data.values.github.client_id
+      clientSecret: #@ data.values.github.client_secret
+      redirectURI: #@ "https://dex.{}/callback".format(data.values.base_domain)
+      teamNameField: slug
+      orgs: #@ data.values.github.orgs
+  staticClients:
+  - id: pinniped-cli
+    public: true
+    name: Pinniped CLI
+    redirectURIs:
+    - http://127.0.0.1:12345/callback
+  - id: tap-gui
+    secret: tap-gui
+    name: TAP GUI
+    redirectURIs:
+    - #@ "https://tap-gui.{}/api/auth/oidc/handler/frame".format(data.values.base_domain)
+ingress:
+  enabled: true
+  annotations:
+    projectcontour.io/tls-cert-namespace: #@ data.values.default_tls.namespace
+  hosts:
+  - host: #@ "dex.{}".format(data.values.base_domain)
+    paths:
+    - path: /
+      pathType: Prefix
+      backend:
+        service:
+          name: dex
+          port:
+            number: 5556
+  tls:
+  - secretName: #@ data.values.default_tls.secret_name
+    hosts:
+    - #@ "dex.{}".format(data.values.base_domain)

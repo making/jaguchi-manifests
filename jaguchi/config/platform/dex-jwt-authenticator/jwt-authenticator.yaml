@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+apiVersion: authentication.concierge.pinniped.dev/v1alpha1
+kind: JWTAuthenticator
+metadata:
+  name: dex-jwt-authenticator
+spec:
+  issuer: #@ "https://dex.{}".format(data.values.base_domain)
+  audience: pinniped-cli
+  claims:
+    username: email
+    groups: groups

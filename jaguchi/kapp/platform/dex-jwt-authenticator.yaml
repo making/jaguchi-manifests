@@ -1,0 +1,41 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: dex-jwt-authenticator
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting pinniped-concierge"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting pinniped-concierge"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting dex"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting dex"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/tanzu-japan/jaguchi-manifests.git
+      ref: origin/main
+  syncPeriod: 10m
+  template:
+  - ytt:
+      paths:
+      - jaguchi/config/platform/dex-jwt-authenticator
+      valuesFrom:
+      - path: jaguchi/config/platform/tap-install/tap-install-data-values.yaml
+  - kbld:
+      paths:
+      - "-"
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      - --app-changes-max-to-keep=3
+      delete:
+        #! Force delete PVCs, since StatefulSet does not delete them
+        rawOptions:
+        - --apply-ignored=true
+      inspect:
+        rawOptions:
+        - --tree=true
