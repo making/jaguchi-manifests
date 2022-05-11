@@ -1,0 +1,57 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: pinniped-concierge
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - http:
+      url: https://get.pinniped.dev/v0.17.0/install-pinniped-concierge-crds.yaml
+  - http:
+      url: https://get.pinniped.dev/v0.17.0/install-pinniped-concierge-resources.yaml
+  syncPeriod: 10m
+  template:
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - .
+      inline:
+        paths:
+          fix-diff.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "CustomResourceDefinition"}), expects="1+"
+            ---
+            #! https://github.com/vmware-tanzu/carvel-kapp/issues/395
+            #@overlay/remove
+            status:
+          kapp-config.yaml: |
+            apiVersion: kapp.k14s.io/v1alpha1
+            kind: Config
+            rebaseRules:
+            - paths:
+              - [data]
+              - [metadata, annotations, kubernetes.io/service-account.uid]
+              type: copy
+              sources: [existing, new]
+              resourceMatchers:
+              - kindNamespaceNameMatcher: {kind: Secret, namespace: pinniped-concierge, name: pinniped-concierge-impersonation-proxy}
+  - kbld:
+      paths:
+      - "-"
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      - --app-changes-max-to-keep=3
+      delete:
+        #! Force delete PVCs, since StatefulSet does not delete them
+        rawOptions:
+        - --apply-ignored=true
+      inspect:
+        rawOptions:
+        - --tree=true
