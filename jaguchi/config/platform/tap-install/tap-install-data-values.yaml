@@ -5,3 +5,7 @@ supply_chain:
 default_tls:
   namespace: tanzu-system-ingress
   secret_name: cnrs-default-tls
+grype:
+  namespace: demo
+recursive_nameservers:
+- 10.90.12.53:53

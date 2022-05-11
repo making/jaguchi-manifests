@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grype-namespace
+  namespace: tap-install
+type: Opaque
+stringData:
+  namespace.yml: |
+    #@ load("@ytt:data", "data")
+    ---
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: #@ data.values.namespace

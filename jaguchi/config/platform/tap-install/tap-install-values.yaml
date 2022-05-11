@@ -111,17 +111,17 @@ stringData:
       app_service_type: ClusterIP
 
     grype:
-      namespace: demo
+      namespace: (@= data.values.grype.namespace @)
       targetImagePullSecret: registry-credentials
 
     package_overlays:
     - name: buildservice
       secrets:
-      - name: buildservice-export-registry-secret
-    # - name: cert-manager
-    #   secrets:
+      - name: buildservice-export-registry-credentials
+    - name: cert-manager
+      secrets:
     #   - name: cert-manager-cluster-issuer
-    #   - name: cert-manager-recursive-nameservers
+      - name: cert-manager-recursive-nameservers
     - name: cnrs
       secrets:
       - name: (@= data.values.default_tls.secret_name @)

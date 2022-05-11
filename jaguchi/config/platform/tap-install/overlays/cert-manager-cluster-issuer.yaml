@@ -1,0 +1,43 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cert-manager-cluster-issuer
+  namespace: tap-install
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  azure-config.yaml: |
+    #@ load("@ytt:data", "data")
+    ---
+    kind: Secret
+    apiVersion: v1
+    metadata:
+      name: azuredns-config
+      namespace: #@ data.values.namespace
+    stringData:
+      client-secret: (@= data.values.azuredns.client_secret @)
+  #@yaml/text-templated-strings
+  cluster-issuer.yaml: |
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt
+    spec:
+      acme:
+        server: https://acme-v02.api.letsencrypt.org/directory
+        email: makingx+jaguchi@gmail.com
+        privateKeySecretRef:
+          name: letsencrypt
+        solvers:
+        - dns01:
+            azureDNS:
+              clientID: (@= data.values.azuredns.client_id @)
+              clientSecretSecretRef:
+                name: azuredns-config
+                key: client-secret
+              subscriptionID: (@= data.values.azuredns.subscription_id @)
+              tenantID: (@= data.values.azuredns.tenant_id @)
+              resourceGroupName: jaguchi
+              hostedZoneName: (@= data.values.base_domain @)
+              environment: AzurePublicCloud
