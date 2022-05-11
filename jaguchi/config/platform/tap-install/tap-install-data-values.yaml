@@ -6,6 +6,6 @@ default_tls:
   namespace: tanzu-system-ingress
   secret_name: cnrs-default-tls
 grype:
-  namespace: demo
+  namespace: default
 recursive_nameservers:
 - 10.90.12.53:53
