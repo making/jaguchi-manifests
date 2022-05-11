@@ -20,7 +20,7 @@ metadata:
   name: registry-credentials
   namespace: #@ user.name
 spec:
-  fromNamespace: buildservice
+  fromNamespace: build-service
 ---
 apiVersion: v1
 kind: Secret
