@@ -1,0 +1,7 @@
+base_domain: jaguchi.maki.lol
+supply_chain:
+  type: basic
+  service_account: default
+default_tls:
+  namespace: tanzu-system-ingress
+  secret_name: cnrs-default-tls

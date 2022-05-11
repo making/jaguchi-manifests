@@ -1,0 +1,133 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tap-values.yml: |
+    profile: full
+
+    ceip_policy_disclosed: true
+
+    cnrs:
+      domain_name: apps.(@= data.values.base_domain @)
+      domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+      default_tls_secret: (@= data.values.default_tls.namespace @)/(@= data.values.default_tls.secret_name @)
+
+    buildservice:
+      kp_default_repository: (@= data.values.registry.server @)/(@= data.values.registry.repository @)/build-service
+      kp_default_repository_username: (@= data.values.registry.username @)
+      kp_default_repository_password: (@= data.values.registry.password @)
+      tanzunet_username: (@= data.values.tanzunet.username @)
+      tanzunet_password: (@= data.values.tanzunet.password @)
+      enable_automatic_dependency_updates: true
+
+    supply_chain: (@= data.values.supply_chain.type @)
+
+    ootb_supply_chain_basic:
+      registry:
+        server: (@= data.values.registry.server @)
+        repository: (@= data.values.registry.repository @)
+      service_account: (@= data.values.supply_chain.service_account @)
+    
+    ootb_supply_chain_testing:
+      registry:
+        server: (@= data.values.registry.server @)
+        repository: (@= data.values.registry.repository @)
+      service_account: (@= data.values.supply_chain.service_account @)
+    
+    ootb_supply_chain_testing_scanning:
+      registry:
+        server: (@= data.values.registry.server @)
+        repository: (@= data.values.registry.repository @)
+      service_account: (@= data.values.supply_chain.service_account @)
+
+    contour:
+      envoy:
+        service:
+          type: LoadBalancer
+          externalTrafficPolicy: Local
+
+    learningcenter:
+      ingressDomain: learningcenter.(@= data.values.base_domain @)
+      ingressSecret:
+        secretName: learningcenter-tls
+
+    tap_gui:
+      ingressEnabled: true
+      ingressDomain: (@= data.values.base_domain @)
+      service_type: ClusterIP
+      tls:
+        secretName: (@= data.values.default_tls.secret_name @)
+        namespace: (@= data.values.default_tls.namespace @)
+      app_config:
+        app:
+          baseUrl: https://tap-gui.(@= data.values.base_domain @)
+        backend:
+          baseUrl: https://tap-gui.(@= data.values.base_domain @)
+          cors:
+            origin: https://tap-gui.(@= data.values.base_domain @)
+        catalog:
+          locations:
+          - type: url
+            target: https://github.com/sample-accelerators/tanzu-java-web-app/blob/main/catalog/catalog-info.yaml
+          - type: url
+            target: https://github.com/tanzu-end-to-end/spring-sensors-sensor/blob/main/catalog/catalog-info.yaml
+          - type: url
+            target: https://github.com/sample-accelerators/spring-petclinic/blob/accelerator/catalog/catalog-info.yaml
+          - type: url
+            target: https://github.com/tanzu-japan/spring-music/blob/tanzu/catalog/catalog-info.yaml 
+        auth:
+          environment: development
+          session:
+            secret: opensesami
+          providers:
+            oidc:
+              development:
+                metadataUrl: https://dex.(@= data.values.base_domain @)/.well-known/openid-configuration
+                clientId: tap-gui
+                clientSecret: tap-gui
+                tokenSignedResponseAlg: RS256
+                scope: "openid profile email groups offline_access"
+                prompt: auto
+
+    accelerator:
+      domain: (@= data.values.base_domain @)
+      ingress:
+        include: true
+        enable_tls: true
+      tls:
+        secret_name: (@= data.values.default_tls.secret_name @)
+        namespace: (@= data.values.default_tls.namespace @)
+      server:
+        service_type: ClusterIP
+
+    metadata_store:
+      app_service_type: ClusterIP
+
+    grype:
+      namespace: demo
+      targetImagePullSecret: registry-credentials
+
+    package_overlays:
+    - name: buildservice
+      secrets:
+      - name: buildservice-export-registry-secret
+    # - name: cert-manager
+    #   secrets:
+    #   - name: cert-manager-cluster-issuer
+    #   - name: cert-manager-recursive-nameservers
+    - name: cnrs
+      secrets:
+      - name: (@= data.values.default_tls.secret_name @)
+    - name: learningcenter
+      secrets:
+      - name: learningcenter-certificate
+    - name: grype
+      secrets:
+      - name: grype-namespace

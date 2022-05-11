@@ -22,12 +22,12 @@ spec:
   - ytt:
       paths:
       - jaguchi/config/platform/tap-install/tap-install-rbac.yaml
-      # - jaguchi/config/platform/tap-install/tap-install-values.yaml
+      - jaguchi/config/platform/tap-install/tap-install-values.yaml
       # - jaguchi/config/platform/tap-install/tap-package-install.yaml
       - jaguchi/config/platform/tap-install/overlays
       valuesFrom:
       - path: common/credentials.yaml
-      # - path: jaguchi/config/platform/tap-install-data-values.yaml
+      - path: jaguchi/config/platform/tap-install/tap-install-data-values.yaml
   deploy:
   - kapp:
       rawOptions:
