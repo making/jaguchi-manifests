@@ -4,6 +4,8 @@ kind: Secret
 metadata:
   name: cert-manager-cluster-issuer
   namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
 type: Opaque
 stringData:
   #@yaml/text-templated-strings

@@ -3,6 +3,8 @@ kind: Secret
 metadata:
   name: cnrs-default-tls
   namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
 type: Opaque
 stringData:
   cnrs-default-tls.yml: |
