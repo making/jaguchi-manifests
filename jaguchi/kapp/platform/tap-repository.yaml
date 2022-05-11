@@ -1,0 +1,33 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: tap-repository
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/tanzu-japan/jaguchi-manifests.git
+      ref: origin/main
+  syncPeriod: 1m
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - common/tap-repository
+      valuesFrom:
+      - path: common/credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
