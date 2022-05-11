@@ -19,7 +19,7 @@ spec:
   template:
   - ytt:
       paths:
-      - jaguchi/config/platform/dex-jwt-authenticator
+      - common/dex-jwt-authenticator
       valuesFrom:
       - path: jaguchi/config/platform/tap-install/tap-install-data-values.yaml
   - kbld:
