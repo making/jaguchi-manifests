@@ -31,3 +31,4 @@ docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --batc
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --list-secret-keys "Jaguchi"
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --armor --export-secret-keys 1997AA2DBF0982F972B61D91D127B098EF01F86D > $HOME/.gnupg/jaguchi.pk
 ```
+
