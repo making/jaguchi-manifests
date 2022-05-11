@@ -7,7 +7,7 @@ spec:
   serviceAccountName: kapp
   fetch:
   - git:
-      url: git@github.com:categolj/k8s-manifests.git
+      url: git@github.com:tanzu-japan/jaguchi-manifests.git
       ref: origin/main
       subPath: jaguchi
       secretRef:
