@@ -6,16 +6,21 @@ kind: Namespace
 metadata:
   name: #@ user.name
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretImport
 metadata:
   name: tap-registry
   namespace: #@ user.name
-  annotations:
-    secretgen.carvel.dev/image-pull-secret: ""
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: e30K
+spec:
+  fromNamespace: tap-install
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretImport
+metadata:
+  name: registry-credentials
+  namespace: #@ user.name
+spec:
+  fromNamespace: buildservice
 ---
 apiVersion: v1
 kind: Secret
@@ -32,11 +37,10 @@ metadata:
   name: #@ data.values.service_account
   namespace: #@ user.name
 secrets:
-#! - name: registry-credentials
-- name: tap-registry
+- name: registry-credentials
 - name: git-ssh
 imagePullSecrets:
-#! - name: registry-credentials
+- name: registry-credentials
 - name: tap-registry
 ---
 apiVersion: rbac.authorization.k8s.io/v1
