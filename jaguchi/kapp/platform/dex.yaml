@@ -40,8 +40,7 @@ spec:
       ignoreUnknownComments: true
       paths:
       - "-"
-      - 1/jaguchi/config/platform/dex/namespace.yaml
-      - 1/jaguchi/config/platform/dex/use-httpproxy.yaml
+      - 1/common/dex
       valuesFrom:
       - path: 1/jaguchi/config/platform/tap-install/tap-install-data-values.yaml
   - kbld:
