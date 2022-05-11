@@ -120,7 +120,7 @@ stringData:
       - name: buildservice-export-registry-credentials
     - name: cert-manager
       secrets:
-    #   - name: cert-manager-cluster-issuer
+      - name: cert-manager-cluster-issuer
       - name: cert-manager-recursive-nameservers
     - name: cnrs
       secrets:
