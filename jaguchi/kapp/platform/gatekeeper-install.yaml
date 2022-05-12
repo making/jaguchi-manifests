@@ -3,6 +3,8 @@ kind: App
 metadata:
   name: gatekeeper-install
   namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
 spec:
   serviceAccountName: kapp
   fetch:
