@@ -10,7 +10,15 @@ kubectl create secret generic -n kapp github --from-file=ssh-privatekey=$HOME/.s
 kubectl create secret generic -n kapp pgp-key --from-file=$HOME/.gnupg/jaguchi.pk --dry-run=client -oyaml | kubectl apply -f-
 ```
 
-## How to generate GPG keys
+
+Deploy everything
+
+```
+kubectl apply -f jaguchi/kapp/apps.yaml
+```
+
+
+## (Tip) How the GPG key (jaguchi.pk) was created
 
 https://carvel.dev/kapp-controller/docs/latest/sops/
 
