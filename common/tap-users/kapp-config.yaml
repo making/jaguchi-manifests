@@ -8,7 +8,7 @@ rebaseRules:
   type: copy
   sources: [ existing, new ]
   resourceMatchers:
-  - andMatcher:
+  - anyMatcher:
       matchers:
       #@ for user in data.values.users:
       - kindNamespaceNameMatcher:
