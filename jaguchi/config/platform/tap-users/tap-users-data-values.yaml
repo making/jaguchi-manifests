@@ -2,5 +2,6 @@ service_account: default
 users:
 - name: making
   email: tmaki@vmware.com
-  roles:
+  clusterroles:
   - app-editor
+  - edit

@@ -68,17 +68,17 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: #@ data.values.service_account
-#@ for role in user.roles:
+#@ for clusterrole in user.clusterroles:
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: #@ "{}-permit-{}".format(user.name, role)
+  name: #@ "{}-permit-{}".format(user.name, clusterrole)
   namespace: #@ user.name
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: #@ role
+  name: #@ clusterrole
 subjects:
 - kind: User
   name: #@ user.email
