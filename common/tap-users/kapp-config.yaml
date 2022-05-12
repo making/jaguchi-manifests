@@ -3,8 +3,12 @@
 apiVersion: kapp.k14s.io/v1alpha1
 kind: Config
 rebaseRules:
+#! git-ssh uses what's on the cluster
 - paths:
-  - [ data ]
+  - [ data, identity ]
+  - [ data, identity.pub ]
+  - [ data, known_hosts ]
+  - [ data, ssh-privatekey ]
   type: copy
   sources: [ existing, new ]
   resourceMatchers:
