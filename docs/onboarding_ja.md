@@ -115,6 +115,14 @@ users:
 export KUBECONFIG=$HOME/.kube/jaguchi.yaml
 ```
 
+[`pinniped` CLI](https://pinniped.dev/docs/howto/install-cli/)をインストールしてください。
+Macの場合は
+```
+brew install vmware-tanzu/pinniped/pinniped-cli
+```
+でインストールできます。
+
+
 この状態で、次のコマンドを実行してください。
 
 ```
@@ -145,6 +153,7 @@ No resources found in making-bot namespace.
 `<GitHubのアカウント名>` namespaceにはPodの読み取り権限があるため、`No resources found in making-bot namespace.`というメッセージが出力されます。
 
 ### Workloadの作成
+次のコマンドでサンプルアプリケーションをデプロイします。
 
 ```
 NAMESPACE=<GitHubのアカウント名>
