@@ -9,3 +9,8 @@ users:
   email: makingx+bot@gmail.com
   clusterroles:
   - app-editor
+- name: imurata
+  email: imurata@vmware.com
+  clusterroles:
+  - app-editor
+  - edit
