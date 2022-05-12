@@ -52,7 +52,7 @@ YAMLの差分を確認して、"Create pull request"ボタンを押してくだ�
 
 <img src="https://user-images.githubusercontent.com/106908/167992033-25dc2a12-acfe-4de7-a988-9f24181471a3.png">
 
-もう一度
+もう一度、"Create pull request"ボタンを押してください。
 <img src="https://user-images.githubusercontent.com/106908/167992818-b3daba6b-8b6f-48c0-9be4-ac461d4c413d.png">
 
 マージされるまで待ってください。
