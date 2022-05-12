@@ -5,3 +5,7 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: making-bot
+  email: makingx+bot@gmail.com
+  clusterroles:
+  - app-editor
