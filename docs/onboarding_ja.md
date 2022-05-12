@@ -131,9 +131,9 @@ kubectl get pod
 Error from server (Forbidden): pods is forbidden: User "makingx+bot@gmail.com" cannot list resource "pods" in API group "" in the namespace "default"
 ```
 
-次に`<GitHub ID>` namespaceにアクセスします。
+次に`<GitHubのアカウント名>` namespaceにアクセスします。
 ```
-kubectl get pod -n <GitHub ID>
+kubectl get pod -n <GitHubのアカウント名>
 ```
 
 **実行例**
@@ -142,12 +142,12 @@ $ kubectl get pod -n making-bot
 No resources found in making-bot namespace.
 ```
 
-`<GitHub ID>` namespaceにはPodの読み取り権限があるため、`No resources found in making-bot namespace.`というメッセージが出力されます。
+`<GitHubのアカウント名>` namespaceにはPodの読み取り権限があるため、`No resources found in making-bot namespace.`というメッセージが出力されます。
 
 ### Workloadの作成
 
 ```
-NAMESPACE=<GitHub ID>
+NAMESPACE=<GitHubのアカウント名>
 
 tanzu apps workload apply spring-music \
   --app spring-music \
@@ -162,7 +162,7 @@ tanzu apps workload tail spring-music -n ${NAMESPACE}
 別のターミナルを開いて次のコマンドを実行しておくと進捗がわかりやすいです。
 ```
 export KUBECONFIG=$HOME/.kube/jaguchi.yaml
-NAMESPACE=<GitHub ID>
+NAMESPACE=<GitHubのアカウント名>
 
 watch kubectl get pod,workload,gitrepo,build,taskrun,app,ksvc -n ${NAMESPACE}
 ```
@@ -201,7 +201,7 @@ NAME           READY   URL
 spring-music   Ready   https://spring-music-making-bot.apps.jaguchi.maki.lol
 ```
 
-Knative ServicesのURL(`https://spring-music-<GitHub ID>.apps.jaguchi.maki.lol`)にアクセスし、アプリの画面が表示されればOKです。
+Knative ServicesのURL(`https://spring-music-<GitHubのアカウント名>.apps.jaguchi.maki.lol`)にアクセスし、アプリの画面が表示されればOKです。
 
 <img src="https://user-images.githubusercontent.com/106908/167996804-0aa9f275-6412-454b-8453-cfb5a543e34e.png">
 
