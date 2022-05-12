@@ -32,7 +32,7 @@ https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platfo
   - app-editor
   - edit # (optional)
 ```
-TAPに必要なK8sリソース(Workloadなど)作成するだけで十分な場合は`app-editor`のみを、TAP以外のK8s(Deployment, Podなど)も作成したい場合は`edit`も追加してください。
+`clusterroles`にはTAPに必要なK8sリソース(Workloadなど)作成するだけで十分な場合は`app-editor`のみを、TAP以外のK8s(Deployment, Podなど)も作成したい場合は`edit`も追加してください。
 
 **記述例**
 ```yaml
