@@ -112,7 +112,7 @@ spec:
                     apiVersion: constraints.gatekeeper.sh/v1beta1
                     kind: K8sPSPPrivilegedContainer
                     metadata:
-                      name: psp-privileged-container
+                      name: psp-privileged-container-learningcenter
                     spec:
                       match:
                         kinds:
@@ -125,7 +125,7 @@ spec:
                     apiVersion: constraints.gatekeeper.sh/v1beta1
                     kind: K8sPSPHostNamespace
                     metadata:
-                      name: psp-host-namespace
+                      name: psp-host-namespace-learningcenter
                     spec:
                       match:
                         kinds:
@@ -134,6 +134,32 @@ spec:
                         namespaceSelector:
                           matchLabels:
                             learningcenter.tanzu.vmware.com/component: session
+                    ---
+                    apiVersion: constraints.gatekeeper.sh/v1beta1
+                    kind: K8sPSPPrivilegedContainer
+                    metadata:
+                      name: psp-privileged-container-tap-developer
+                    spec:
+                      match:
+                        kinds:
+                        - apiGroups: [""]
+                          kinds: ["Pod"]
+                        namespaceSelector:
+                          matchLabels:
+                            role: tap-developer
+                    ---
+                    apiVersion: constraints.gatekeeper.sh/v1beta1
+                    kind: K8sPSPHostNamespace
+                    metadata:
+                      name: psp-host-namespace-tap-developer
+                    spec:
+                      match:
+                        kinds:
+                        - apiGroups: [""]
+                          kinds: ["Pod"]
+                        namespaceSelector:
+                          matchLabels:
+                            role: tap-developer
             syncPeriod: 10m
             template:
             - ytt:
