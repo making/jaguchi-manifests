@@ -14,3 +14,8 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: gigiyy
+  email: guixin.zhu@yahoo.com
+  clusterroles:
+  - app-editor
+  - edit
