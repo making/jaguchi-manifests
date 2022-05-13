@@ -14,3 +14,9 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: guixin
+  email: guixinz@vmware.com
+  clusterroles:
+  - app-editor
+  - edit
+
