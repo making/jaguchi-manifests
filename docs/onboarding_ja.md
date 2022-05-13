@@ -1,5 +1,13 @@
 ## Developerのon-boarding
 
+### 必要なCLIのインストール
+
+以下のCLIを事前にインストールしてください
+
+* [`kubectl`](https://kubernetes.io/docs/tasks/tools/)
+* `tanzu` ([TAP版](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap//GUID-install-tanzu-cli.html) or [TCE版](https://tanzucommunityedition.io/docs/v0.12/cli-installation/))
+* [`pinniped`](https://pinniped.dev/docs/howto/install-cli/)
+
 ### TAP GUIへのアクセス
 
 [tanzu-japan org](https://github.com/tanzu-japan) orgの[jaguchi-users team](https://github.com/orgs/tanzu-japan/teams/jaguchi-users)に所属するメンバーは[TAP GUI](https://tap-gui.jaguchi.maki.lol)にログインできます。
@@ -114,14 +122,6 @@ users:
 ```
 export KUBECONFIG=$HOME/.kube/jaguchi.yaml
 ```
-
-[`pinniped` CLI](https://pinniped.dev/docs/howto/install-cli/)をインストールしてください。
-Macの場合は
-```
-brew install vmware-tanzu/pinniped/pinniped-cli
-```
-でインストールできます。
-
 
 この状態で、次のコマンドを実行してください。
 
