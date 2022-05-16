@@ -1,0 +1,28 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: tanzu-data-services-repository
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/tanzu-japan/jaguchi-manifests.git
+      ref: origin/main
+      subPath: common/tanzu-data-services-repository
+  syncPeriod: 30m
+  template:
+  - ytt:
+      paths:
+      - '.'
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
