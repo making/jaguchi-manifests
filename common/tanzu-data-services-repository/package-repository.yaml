@@ -9,4 +9,4 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      image: registry.tanzu.vmware.com/packages-for-vmware-tanzu-data-services/tds-packages:1.0.0
+      image: ghcr.io/jaguchi/packages-for-vmware-tanzu-data-services/tds-packages:1.0.0
