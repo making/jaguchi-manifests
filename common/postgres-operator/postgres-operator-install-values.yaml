@@ -1,0 +1,19 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-operator-tds-system-values
+  namespace: tds-system
+  annotations:
+    kapp.k14s.io/change-group: "postgres-operator-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  postgres-operator-values.yml: |
+    resources:
+      limits:
+        cpu: 500m
+        memory: 300Mi
+      requests:
+        cpu: 500m
+        memory: 300Mi
