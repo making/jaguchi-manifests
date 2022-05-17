@@ -124,7 +124,7 @@ stringData:
       - name: cert-manager-recursive-nameservers
     - name: cnrs
       secrets:
-      - name: (@= data.values.default_tls.secret_name @)
+      - name: cnrs-default-tls
     - name: learningcenter
       secrets:
       - name: learningcenter-certificate
