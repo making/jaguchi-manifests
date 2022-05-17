@@ -15,3 +15,5 @@ stringData:
       remote: (@= data.values.tsunagu.remote @)
       preserve_host: true
       upstream: http://envoy.tanzu-system-ingress.svc.cluster.local
+      path_to_host_map:
+        /rsocket: blog-api.making.svc.cluster.local
