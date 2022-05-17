@@ -1,0 +1,17 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tsunagu-client-values
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tsunagu-client-values.yml: |
+    tsunagu:
+      token: (@= data.values.tsunagu.token @)
+      remote: (@= data.values.tsunagu.remote @)
+      preserve_host: true
+      upstream: http://envoy.tanzu-system-ingress.svc.cluster.local
