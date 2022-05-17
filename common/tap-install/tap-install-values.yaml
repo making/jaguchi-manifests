@@ -125,6 +125,7 @@ stringData:
     - name: cnrs
       secrets:
       - name: cnrs-default-tls
+      - name: cnrs-autocreate-cluster-domain-claims
     - name: learningcenter
       secrets:
       - name: learningcenter-certificate
