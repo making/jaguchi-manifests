@@ -1,0 +1,9 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tsunagu-repository
+  namespace: kapp
+spec:
+  fetch:
+    imgpkgBundle:
+      image: ghcr.io/making/tsunagu-repo:0.0.1
