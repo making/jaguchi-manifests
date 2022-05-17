@@ -1,4 +1,4 @@
-## PostgreSQLインスタンスの作成とバインド
+## Tanzu SQL with PostgreSQLインスタンスの作成とバインド
 
 ### PostgreSQL Instanceの作成
 https://docs.vmware.com/en/VMware-Tanzu-SQL-with-Postgres-for-Kubernetes/1.7/tanzu-postgres-k8s/GUID-create-delete-postgres.html
