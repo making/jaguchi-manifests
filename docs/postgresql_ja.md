@@ -299,3 +299,11 @@ kubectl delete pod -l app.kubernetes.io/component=run,app.kubernetes.io/part-of=
 削除後もデータが残っていることを確認。
 <img width="1024" alt="スクリーンショット 2022-05-16 15 02 49" src="https://user-images.githubusercontent.com/106908/168529101-9d716f8e-37d4-41fb-9cf7-fce847c01080.png">
 
+### リソースの削除
+
+不要になったら次のコマンドでWorkloadとデータベースを削除してください。
+
+```
+tanzu apps workload delete spring-music -n ${NAMESPACE} -y
+kubectl delete -f /tmp/music-db.yaml  -n ${NAMESPACE}
+```
