@@ -176,7 +176,7 @@ spec:
                 inspect:
                   rawOptions:
                   - --tree=true
-  syncPeriod: 10m
+  syncPeriod: 1m
   template:
   - ytt:
       ignoreUnknownComments: true
