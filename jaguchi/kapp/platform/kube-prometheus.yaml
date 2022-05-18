@@ -216,6 +216,36 @@ spec:
               system-disk-space.json:
               #@overlay/replace via=lambda a, b: a.replace("/^(.*):[0-9]+/", "")
               system-overview.json:
+          rbac.yaml: |
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRole
+            metadata:
+              name: prometheus-monitor
+            rules:
+            - apiGroups:
+              - ""
+              resources:
+              - nodes
+              - services
+              - endpoints
+              - pods
+              verbs:
+              - get
+              - list
+              - watch
+            ---
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: prometheus-monitor-prometheus-k8s
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: prometheus-monitor
+            subjects:
+            - kind: ServiceAccount
+              name: prometheus-k8s
+              namespace: monitoring
   deploy:
   - kapp:
       rawOptions:
