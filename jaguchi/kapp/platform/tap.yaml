@@ -23,10 +23,10 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - common/tap-install
+      - common/tap
       valuesFrom:
       - path: common/credentials.yaml
-      - path: jaguchi/config/platform/tap-install/tap-data-values.yaml
+      - path: jaguchi/config/platform/tap/tap-data-values.yaml
   deploy:
   - kapp:
       rawOptions:

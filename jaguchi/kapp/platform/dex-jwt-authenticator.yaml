@@ -21,7 +21,7 @@ spec:
       paths:
       - common/dex-jwt-authenticator
       valuesFrom:
-      - path: jaguchi/config/platform/tap-install/tap-data-values.yaml
+      - path: jaguchi/config/platform/tap/tap-data-values.yaml
   - kbld:
       paths:
       - "-"
