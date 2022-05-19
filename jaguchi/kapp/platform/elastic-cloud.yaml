@@ -1,0 +1,213 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: elastic-cloud
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - http:
+      url: https://download.elastic.co/downloads/eck/2.2.0/crds.yaml
+  - http:
+      url: https://download.elastic.co/downloads/eck/2.2.0/operator.yaml
+  syncPeriod: 1h
+  template:
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - .
+      inline:
+        paths:
+          kapp-config.yaml: |
+            apiVersion: kapp.k14s.io/v1alpha1
+            kind: Config
+            rebaseRules:
+            - path: [data]
+              type: copy
+              sources: [existing, new]
+              resourceMatchers:
+              - kindNamespaceNameMatcher: {kind: Secret, namespace: elastic-system, name: elastic-webhook-server-cert}
+            - path: [webhooks, {allIndexes: true}, clientConfig, caBundle]
+              type: copy
+              sources: [existing, new]
+              resourceMatchers:
+              - kindNamespaceNameMatcher: {kind: ValidatingWebhookConfiguration, name: elastic-webhook.k8s.elastic.co}
+            - paths: 
+              - [metadata, annotations, eck.k8s.elastic.co/orchestration-hints]
+              - [metadata, annotations, elasticsearch.k8s.elastic.co/initial-master-nodes]
+              - [metadata, annotations, elasticsearch.k8s.elastic.co/cluster-uuid]
+              - [spec, auth]
+              - [spec, http, service, spec]
+              - [spec, monitoring]
+              - [spec, nodeSets, {allIndexes: true}, podTemplate, metadata]
+              - [spec, nodeSets, {allIndexes: true}, podTemplate, spec]
+              - [spec, nodeSets, {allIndexes: true}, volumeClaimTemplates, {allIndexes: true}, status]
+              - [spec, transport]
+              - [spec, updateStrategy]
+              type: copy
+              sources: [new, existing]
+              resourceMatchers:
+              - apiVersionKindMatcher: {apiVersion: elasticsearch.k8s.elastic.co/v1, kind: Elasticsearch}
+            - paths: 
+              - [metadata, annotations, association.k8s.elastic.co/es-conf]
+              - [spec, enterpriseSearchRef]
+              - [spec, http, service, spec]
+              - [spec, monitoring]
+              - [spec, podTemplate, metadata]
+              - [spec, podTemplate, spec]
+              type: copy
+              sources: [new, existing]
+              resourceMatchers:
+              - apiVersionKindMatcher: {apiVersion: kibana.k8s.elastic.co/v1, kind: Kibana}
+          namespace.yaml: |
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: elastic-stack
+          elasticsearch.yaml: |
+            apiVersion: elasticsearch.k8s.elastic.co/v1
+            kind: Elasticsearch
+            metadata:
+              name: elasticsearch
+              namespace: elastic-stack
+            spec:
+              version: 7.17.3
+              nodeSets:
+              - name: default
+                count: 3
+                config:
+                  node.store.allow_mmap: false
+                  xpack.monitoring.collection.enabled: true
+                podTemplate:
+                  metadata: {}
+                  spec:
+                    affinity:
+                      nodeAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          nodeSelectorTerms:
+                          - matchExpressions:
+                            - key: role
+                              operator: In
+                              values:
+                              - logging
+                    tolerations:
+                    - key: CriticalAddonsOnly
+                      operator: Exists
+                      effect: NoExecute
+                volumeClaimTemplates:
+                - metadata:
+                    name: elasticsearch-data
+                  spec:
+                    accessModes:
+                    - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 30Gi
+              http:
+                service:
+                  metadata:
+                    annotations:
+                      projectcontour.io/upstream-protocol.tls: "9200"
+                tls:
+                  certificate:
+                    secretName: elasticsearch-tls
+            ---
+            apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              name: elasticsearch
+              namespace: elastic-stack
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt
+            spec:
+              tls:
+              - secretName: elasticsearch-tls
+                hosts:
+                - elasticsearch.jaguchi.maki.lol
+              rules:
+              - host: elasticsearch.jaguchi.maki.lol
+                http:
+                  paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: elasticsearch-es-http
+                        port:
+                          number: 9200
+          kibana.yaml: |
+            apiVersion: kibana.k8s.elastic.co/v1
+            kind: Kibana
+            metadata:
+              name: kibana
+              namespace: elastic-stack
+            spec:
+              version: 7.17.3
+              count: 1
+              elasticsearchRef:
+                name: elasticsearch
+              config:
+                xpack.monitoring.collection.enabled: true
+                server.publicBaseUrl: https://kibana.jaguchi.maki.lol
+              podTemplate:
+                metadata: {}
+                spec:
+                  affinity:
+                    nodeAffinity:
+                      requiredDuringSchedulingIgnoredDuringExecution:
+                        nodeSelectorTerms:
+                        - matchExpressions:
+                          - key: role
+                            operator: In
+                            values:
+                            - logging
+                  tolerations:
+                  - key: CriticalAddonsOnly
+                    operator: Exists
+                    effect: NoExecute
+              http:
+                tls:
+                  certificate:
+                    secretName: kibana-tls
+                service:
+                  metadata:
+                    annotations:
+                      projectcontour.io/upstream-protocol.tls: "5601"
+            ---
+            apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              name: kibana
+              namespace: elastic-stack
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt
+            spec:
+              tls:
+              - secretName: kibana-tls
+                hosts:
+                - kibana.jaguchi.maki.lol
+              rules:
+              - host: kibana.jaguchi.maki.lol
+                http:
+                  paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: kibana-kb-http
+                        port:
+                          number: 5601
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      - --app-changes-max-to-keep=3
+      delete:
+        #! Force delete PVCs, since StatefulSet does not delete them
+        rawOptions:
+        - --apply-ignored=true
+      inspect:
+        rawOptions:
+        - --tree=true
