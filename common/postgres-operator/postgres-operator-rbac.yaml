@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   annotations:
     tkg.tanzu.vmware.com/tanzu-package: postgres-operator-tds-system
-    kapp.k14s.io/change-group: "postgres-operator-install-rbac"
+    kapp.k14s.io/change-group: "postgres-operator-rbac"
   name: postgres-operator-tds-system-cluster-role
 rules:
 - apiGroups:
@@ -18,7 +18,7 @@ kind: ClusterRoleBinding
 metadata:
   annotations:
     tkg.tanzu.vmware.com/tanzu-package: postgres-operator-tds-system
-    kapp.k14s.io/change-group: "postgres-operator-install-rbac"
+    kapp.k14s.io/change-group: "postgres-operator-rbac"
   name: postgres-operator-tds-system-cluster-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -34,6 +34,6 @@ kind: ServiceAccount
 metadata:
   annotations:
     tkg.tanzu.vmware.com/tanzu-package: postgres-operator-tds-system
-    kapp.k14s.io/change-group: "postgres-operator-install-rbac"
+    kapp.k14s.io/change-group: "postgres-operator-rbac"
   name: postgres-operator-tds-system-sa
   namespace: tds-system

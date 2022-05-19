@@ -5,7 +5,7 @@ metadata:
   name: postgres-operator-tds-system-values
   namespace: tds-system
   annotations:
-    kapp.k14s.io/change-group: "postgres-operator-install-values"
+    kapp.k14s.io/change-group: "postgres-operator-values"
 type: Opaque
 stringData:
   #@yaml/text-templated-strings
