@@ -30,7 +30,7 @@ spec:
       - 1/jaguchi/config/platform/dex/helm-values.yaml
       valuesFrom:
       - path: 1/common/credentials.yaml
-      - path: 1/jaguchi/config/platform/tap-install/tap-install-data-values.yaml
+      - path: 1/jaguchi/config/platform/tap-install/tap-data-values.yaml
   - helmTemplate:
       namespace: dex
       path: 0/
@@ -42,7 +42,7 @@ spec:
       - "-"
       - 1/common/dex
       valuesFrom:
-      - path: 1/jaguchi/config/platform/tap-install/tap-install-data-values.yaml
+      - path: 1/jaguchi/config/platform/tap-install/tap-data-values.yaml
   - kbld:
       paths:
       - "-"
