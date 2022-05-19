@@ -94,6 +94,15 @@ spec:
                     - key: CriticalAddonsOnly
                       operator: Exists
                       effect: NoExecute
+                    containers:
+                    - name: elasticsearch
+                      resources:
+                        requests:
+                          memory: 14G
+                          cpu: 3
+                        limits:
+                          memory: 15G
+                          cpu: 4
                 volumeClaimTemplates:
                 - metadata:
                     name: elasticsearch-data
