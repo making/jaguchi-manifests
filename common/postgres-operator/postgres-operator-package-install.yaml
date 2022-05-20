@@ -17,7 +17,7 @@ spec:
   packageRef:
     refName: postgres-operator.sql.tanzu.vmware.com
     versionSelection:
-      constraints: 1.7.1+patch.1
+      constraints: 1.7.2+patch.1
       prereleases: { }
   serviceAccountName: postgres-operator-tds-system-sa
   values:
