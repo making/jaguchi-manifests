@@ -1,0 +1,13 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tanzu-rabbitmq-tds-system-values
+  namespace: tds-system
+  annotations:
+    kapp.k14s.io/change-group: "tanzu-rabbitmq-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  values.yml: |
+    namespace: rabbitmq-system
