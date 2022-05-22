@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+  name: rabitmqcluster-editor
+rules:
+- apiGroups:
+  - rabbitmq.com
+  resources:
+  - rabbitmqclusters
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
