@@ -1,9 +1,10 @@
-## Tanzu RabbitMQ for Kubernetesインスタンスの作成とバインド
+## Create and bind an instance of Tanzu RabbitMQ for Kubernetes
 
-### Rabbitmqインスタンスの作成
+### Create a Rabbitmq instance
+
 https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/1.2/tanzu-rmq/GUID-kubernetes-operator-using-operator.html#create-a-rabbitmq-instance
 
-RabbitmqClusterリソースのYAMLを作成
+Create YAML for RabbitmqCluster resource
 
 ```yaml
 cat <<EOF > /tmp/demo-rabbitmq.yaml
@@ -17,20 +18,20 @@ spec:
 EOF
 ```
 
-applyする。
+apply it.
 
 ```yaml
 NAMESPACE=<GitHubのアカウント名>
 kubectl apply -f /tmp/demo-rabbitmq.yaml -n ${NAMESPACE}
 ```
 
-次のコマンドで進捗を確認。
+Check the progress with the following command.
 
 ```
 watch kubectl get sts,pod,svc,secret -n ${NAMESPACE} -o wide -l app.kubernetes.io/name=demo-rabbitmq
 ```
 
-次のように表示されればOK
+OK if the following is displayed
 
 ```
 NAME                                    READY   AGE   CONTAINERS   IMAGES
@@ -54,9 +55,9 @@ NAME            ALLREPLICASREADY   RECONCILESUCCESS   AGE
 demo-rabbitmq   True               True               6m57s
 ```
 
-### (Optional) Kubectl RabbitMQ Pluginのインストール
+### (Optional) Install Kubectl RabbitMQ Plugin
 
-[knew](https://krew.sigs.k8s.io/docs/user-guide/setup/install/) を事前にインストール。
+Install [knew](https://krew.sigs.k8s.io/docs/user-guide/setup/install/) in advance.
 
 ```
 kubectl krew install rabbitmq
@@ -87,36 +88,38 @@ secret/demo-rabbitmq-default-user    Opaque   7      54m
 secret/demo-rabbitmq-erlang-cookie   Opaque   1      54m
 ```
 
-### Management UIにアクセス
+### Access Management UI
 
-次のコマンドでユーザー名とパスワードを確認
+Check the username and password with the following command
+
 ```
 kubectl get secret -n making demo-rabbitmq-default-user -ojson | jq '.data | map_values(@base64d)'
 ```
 
 <img width="904" alt="image" src="https://user-images.githubusercontent.com/106908/169693704-d06c8b29-2a31-43e0-a483-d1501bb7475f.png">
 
-
-`demo-rabbitmq` Serviceの15672に対してport-forwardすれば良いが、Kubectl RabbitMQ Pluginを使うとアクセスが簡単
+You can port-forward to 15672 of `demo-rabbitmq` Service. The access is easy with Kubectl RabbitMQ Plugin.
 
 ```
 kubectl rabbitmq -n ${NAMESPACE} manage demo-rabbitmq
 ```
 
-> Kubectl RabbitMQ Pluginがない場合は、次のコマンドで代替可能
+> If you don't have Kubectl RabbitMQ Plugin, you can substitute it with the following command.
 > ```
 > kubectl port-forward -n ${NAMESPACE} svc/demo-rabbitmq 15672:15672
 > ```
 
-ブラウザが起動する
+The browser launches
+
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/106908/169693748-db8dbad5-3ac5-461e-b8d4-2a13138ddaf6.png">
 
-ユーザー名・パスワードを入力してログイン
+Enter your user name and password to log in
+
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/106908/169693790-1bb1abec-90a2-4ee2-981c-b9e6d86608df.png">
 
-### サンプルアプリ(receiver)のデプロイ
+### Deploy sample app (receiver)
 
-Workloadの作成
+Create the Workload
 
 ```
 tanzu apps workload apply demo-rabbitmq-receiver \
@@ -130,17 +133,19 @@ tanzu apps workload apply demo-rabbitmq-receiver \
   -n ${NAMESPACE}
 ```
 
-ログを追跡
+Track logs
+
 ```
 tanzu apps workload tail demo-rabbitmq-receiver -n ${NAMESPACE}
 ```
 
-進捗を確認
+Check progress
+
 ```
 watch kubectl get pod,workload,gitrepo,build,taskrun,pod,workload,gitrepo,build,taskrun,imagerepository,app,ksvc,servicebinding,app,ksvc,servicebinding -l app.kubernetes.io/part-of=demo-rabbitmq-receiver -n ${NAMESPACE}
 ```
 
-次のような出力になればOK (revision 00001は無視)
+OK if the output is as follows (ignore revision 00001)
 
 ```
 NAME                                                           READY   STATUS      RESTARTS   AGE
@@ -173,7 +178,7 @@ NAME                                                                    READY   
 servicebinding.servicebinding.io/demo-rabbitmq-receiver-demo-rabbitmq   True    Ready    118s
 ```
 
-`tanzu apps workload get`でも確認。
+Check `tanzu apps workload get` as well
 
 ```
 $ tanzu apps workload get demo-rabbitmq-receiver -n ${NAMESPACE}
@@ -200,7 +205,7 @@ NAME                     READY   URL
 demo-rabbitmq-receiver   Ready   https://demo-rabbitmq-receiver-making.apps.jaguchi.maki.lol
 ```
 
-↓のログを確認してRabbitMQに接続できていることを確認。
+Check the log of ↓ and confirm that you can connect to RabbitMQ.
 
 ```
 $ kubectl logs -l app.kubernetes.io/component=run,app.kubernetes.io/part-of=demo-rabbitmq-receiver -c workload -n ${NAMESPACE} --tail=1000
@@ -252,13 +257,15 @@ Picked up JAVA_TOOL_OPTIONS: -Dmanagement.endpoint.health.probes.add-additional-
 ```
 
 Management UIを見ると`hello`というExchangeと
+
+You can see `hello` Exchange and
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/106908/169694892-8ce09ad8-35b0-46c1-91da-b5886561e324.png">
-`hello.demo`というQueueができている
+`hello.demo` Queue in the management UI
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/106908/169694901-e2bbf3c0-24b4-467a-b63d-7066d8f80eda.png">
 
-### サンプルアプリ(sender)のデプロイ
+### Deploy sample app (sender)
 
-Workloadの作成
+Create the Workload
 
 ```
 tanzu apps workload apply demo-rabbitmq-sender \
@@ -272,17 +279,22 @@ tanzu apps workload apply demo-rabbitmq-sender \
   -n ${NAMESPACE}
 ```
 
-ログを追跡
+Track logs
+
+
 ```
 tanzu apps workload tail demo-rabbitmq-sender -n ${NAMESPACE}
 ```
 
-進捗を確認
+Check progress
+
+
 ```
 watch kubectl get pod,workload,gitrepo,build,taskrun,pod,workload,gitrepo,build,taskrun,imagerepository,app,ksvc,servicebinding,app,ksvc,servicebinding -l app.kubernetes.io/part-of=demo-rabbitmq-sender -n ${NAMESPACE}
 ```
 
-次のような出力になればOK (revision 00001は無視)
+OK if the output is as follows (ignore revision 00001)
+
 
 ```
 NAME                                                         READY   STATUS      RESTARTS   AGE
@@ -315,9 +327,7 @@ NAME                                                                  READY   RE
 servicebinding.servicebinding.io/demo-rabbitmq-sender-demo-rabbitmq   True    Ready    3m14s
 ```
 
-`tanzu apps workload get`でも確認。
-
-
+Check `tanzu apps workload get` as well.
 
 ```
 $ tanzu apps workload get -n ${NAMESPACE} demo-rabbitmq-sender        
@@ -345,7 +355,8 @@ NAME                   READY   URL
 demo-rabbitmq-sender   Ready   https://demo-rabbitmq-sender-making.apps.jaguchi.maki.lol
 ```
 
-↓のログを確認してRabbitMQに接続できていることを確認。
+Check the log of ↓ and confirm that you can connect to RabbitMQ.
+
 
 ```
 $ kubectl logs -l app.kubernetes.io/component=run,app.kubernetes.io/part-of=demo-rabbitmq-sender -c workload -n ${NAMESPACE} --tail=1000
@@ -394,19 +405,19 @@ Picked up JAVA_TOOL_OPTIONS: -Dmanagement.endpoint.health.probes.add-additional-
 2022-05-22 13:13:29.203  INFO 1 --- [nio-8081-exec-1] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#48df4071:0/SimpleConnection@7633c73c [delegate=amqp://default_user_XJ0iKFkls2qx4T6sqDp@100.70.122.155:5672/, localPort= 33734]
 👆👆👆👆👆👆👆👆👆👆
 ```
-Management UIを見るとConnectionが二つできている
+You can see two conections in the Management UI.
 
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/106908/169697039-f12752a8-5abe-40b7-b8ac-035333ef7e20.png">
 
-### Senderにメッセージを送信
+### Send a message to Sender
 
-100件メッセージ送信
+Send 100 messages
 
 ```
 curl https://demo-rabbitmq-sender-${NAMESPACE}.apps.jaguchi.maki.lol/send -d count=100
 ```
 
-receiverのログを確認。100件メッセージを受信できいればOK
+Check the receiver log. OK if you can receive 100 messages
 
 ```
 $ kubectl logs -l app.kubernetes.io/component=run,app.kubernetes.io/part-of=demo-rabbitmq-receiver -c workload -n ${NAMESPACE} --tail=105
@@ -517,12 +528,13 @@ $ kubectl logs -l app.kubernetes.io/component=run,app.kubernetes.io/part-of=demo
 2022-05-22 13:20:02.905  INFO 1 --- [ntContainer#0-1] com.example.demo.HelloListener           : payload=Hello[message=hello100]	headers={amqp_receivedDeliveryMode=PERSISTENT, amqp_receivedExchange=hello, amqp_deliveryTag=100, amqp_consumerQueue=hello.demo, amqp_redelivered=false, amqp_receivedRoutingKey=hello, amqp_contentEncoding=UTF-8, id=dd5dc168-daba-f7d3-2948-9ef4bed05449, amqp_consumerTag=amq.ctag-jp5Qoehk6PIjPx7qRM90AA, amqp_lastInBatch=false, contentType=application/json, __TypeId__=com.example.demo.Hello, timestamp=1653225602905}
 ```
 
-Management UIでメッセージの流れを確認
+Check the message flow in the Management UI
+
 <img width="1024" alt="image" src="https://user-images.githubusercontent.com/106908/169697489-ffd120e9-ec0b-4d3e-b412-121483c4949f.png">
 
-### リソースの削除
+### Delete resources
 
-不要になったら次のコマンドでWorkloadとRabbitMQを削除してください。
+When you no longer need it, delete Workload and RabbitMQ with the following command.
 
 ```
 tanzu apps workload delete demo-rabbitmq-sender -n ${NAMESPACE} -y
