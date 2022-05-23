@@ -21,7 +21,7 @@ EOF
 apply it.
 
 ```yaml
-NAMESPACE=<GitHubのアカウント名>
+NAMESPACE=<GitHub Account Name>
 kubectl apply -f /tmp/demo-rabbitmq.yaml -n ${NAMESPACE}
 ```
 
