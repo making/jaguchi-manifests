@@ -8,7 +8,7 @@ Please install the following CLI in advance
 * `tanzu` ([TAP version](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap//GUID-install-tanzu-cli.html) or [TCE version](https://tanzucommunityedition.io/docs/v0.12/cli-installation/))
 * [`pinniped`](https://pinniped.dev/docs/howto/install-cli/)
 
-### TAP GUIへのアクセス
+### Access to TAP GUI
 
 Members of [jaguchi-users team](https://github.com/orgs/tanzu-japan/teams/jaguchi-users) in [tanzu-japan org](https://github.com/tanzu-japan) org can log in to the [TAP GUI](https://tap-gui.jaguchi.maki.lol).
 
