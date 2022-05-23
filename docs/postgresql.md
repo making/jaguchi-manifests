@@ -1,4 +1,4 @@
-## Create and bindi a Tanzu SQL with PostgreSQL instance
+## Create and bind a Tanzu SQL with PostgreSQL instance
 
 ### Create a PostgreSQL Instance
 
