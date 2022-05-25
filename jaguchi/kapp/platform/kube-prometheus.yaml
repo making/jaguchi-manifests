@@ -130,7 +130,7 @@ spec:
                   spec:
                     resources:
                       requests:
-                        storage: 8Gi
+                        storage: 30Gi
           alertmanager.yaml: |
             #@ load("@ytt:overlay", "overlay")
             #@overlay/match by=overlay.subset({"kind": "Alertmanager", "metadata": {"name": "main"}})
