@@ -19,3 +19,8 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: hirosat
+  email: hirotaka0426@gmail.com
+  clusterroles:
+  - app-editor
+  - edit
