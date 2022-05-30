@@ -24,3 +24,8 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: boltKrank
+  email: simon.anderson111@gmail.com
+  clusterroles:
+  - app-editor
+  - edit
