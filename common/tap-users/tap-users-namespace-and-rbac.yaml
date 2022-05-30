@@ -1,10 +1,11 @@
 #@ load("@ytt:data", "data")
 #@ for user in data.values.users:
+#@ namespace = user.name.lower()
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: #@ user.name
+  name: #@ namespace
   labels:
     role: tap-developer
 ---
@@ -12,7 +13,7 @@ apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretImport
 metadata:
   name: tap-registry
-  namespace: #@ user.name
+  namespace: #@ namespace
 spec:
   fromNamespace: tap-install
 ---
@@ -20,7 +21,7 @@ apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretImport
 metadata:
   name: registry-credentials
-  namespace: #@ user.name
+  namespace: #@ namespace
 spec:
   fromNamespace: build-service
 ---
@@ -28,7 +29,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: git-ssh
-  namespace: #@ user.name
+  namespace: #@ namespace
   annotations:
     tekton.dev/git-0: github.com
 type: kubernetes.io/ssh-auth
@@ -39,7 +40,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: #@ data.values.service_account
-  namespace: #@ user.name
+  namespace: #@ namespace
 secrets:
 - name: registry-credentials
 - name: git-ssh
@@ -51,7 +52,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: #@ "{}-permit-deliverable".format(data.values.service_account)
-  namespace: #@ user.name
+  namespace: #@ namespace
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -64,7 +65,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: #@ "{}-permit-workload".format(data.values.service_account)
-  namespace: #@ user.name
+  namespace: #@ namespace
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -77,8 +78,8 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: #@ "{}-permit-{}".format(user.name, clusterrole)
-  namespace: #@ user.name
+  name: #@ "{}-permit-{}".format(namespace, clusterrole)
+  namespace: #@ namespace
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
