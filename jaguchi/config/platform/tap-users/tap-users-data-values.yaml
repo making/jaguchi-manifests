@@ -29,3 +29,8 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: kojiri
+  email: kojiri@vmware.com
+  clusterroles:
+  - app-editor
+  - edit
