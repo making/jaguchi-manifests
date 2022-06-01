@@ -81,7 +81,15 @@ stringData:
           - type: url
             target: https://github.com/sample-accelerators/spring-petclinic/blob/accelerator/catalog/catalog-info.yaml
           - type: url
-            target: https://github.com/tanzu-japan/spring-music/blob/tanzu/catalog/catalog-info.yaml 
+            target: https://github.com/tanzu-japan/spring-music/blob/tanzu/catalog/catalog-info.yaml
+          - type: url
+            target: https://github.com/categolj/tap-catalog-info/blob/main/blog-api.yaml
+          - type: url
+            target: https://github.com/categolj/tap-catalog-info/blob/main/blog-counter.yaml
+          - type: url
+            target: https://github.com/categolj/tap-catalog-info/blob/main/blog-frontend.yaml
+          - type: url
+            target: https://github.com/categolj/tap-catalog-info/blob/main/blog-translation.yaml
         auth:
           environment: development
           session:
