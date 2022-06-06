@@ -1,0 +1,16 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-supply-chain-testing-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "ootb-supply-chain-testing-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  ootb-supply-chain-testing-values.yml: |
+    registry:
+      server: ghcr.io
+      repository: jaguchi
+    service_account: default
