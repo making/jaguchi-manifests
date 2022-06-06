@@ -137,3 +137,6 @@ stringData:
     - name: learningcenter
       secrets:
       - name: learningcenter-certificate
+    - name: ootb-templates
+      secrets:
+      - name: ootb-templates-multiple-pipelines

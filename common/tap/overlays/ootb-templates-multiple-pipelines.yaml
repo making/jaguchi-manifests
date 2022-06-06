@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-multiple-pipelines
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
+type: Opaque
+stringData:
+  multiple-pipelines.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"testing-pipeline"}, "kind": "ClusterSourceTemplate"})
+    ---
+    spec:
+      #! https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap//GUID-scc-ootb-supply-chain-testing.html#multiple-pl
+      #@overlay/replace via=lambda a, b: a.replace("apps.tanzu.vmware.com/pipeline: test", "apps.tanzu.vmware.com/pipeline: test\n      apps.jaguchi.maki.lol/test-type: #@ data.values.workload.metadata.labels[\"apps.jaguchi.maki.lol/test-type\"]")
+      ytt:
