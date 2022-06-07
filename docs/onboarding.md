@@ -230,4 +230,5 @@ tanzu apps workload delete spring-music -n ${NAMESPACE} -y
 * [Create and bind a Tanzu SQL with PostgreSQL instance](postgresql.md)
 * [Create and bind a MongoDB instance](mongodb.md)
 * [Create and bind a Tanzu RabbitMQ for Kubernetes instannce](rabbitmq.md)
+* [Add test to Supply Chain](supply-chain-testing.md)
 * [Publish apps to the Internet (in Japanese)](publish-apps-to-internet_ja.md)

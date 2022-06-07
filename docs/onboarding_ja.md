@@ -223,6 +223,7 @@ tanzu apps workload delete spring-music -n ${NAMESPACE} -y
 ### 次の手順
 
 * [Tanzu SQL with PostgreSQLインスタンスの作成とバインド](postgresql_ja.md)
+* [Supply Chainにtestを追加](supply-chain-testing_ja.md)
 * [MongoDBインスタンスの作成とバインド](mongodb_ja.md)
 * [Tanzu RabbitMQ for Kubernetesインスタンスの作成とバインド](rabbitmq_ja.md)
 * [アプリをインターネットに公開する](publish-apps-to-internet_ja.md)
