@@ -1,0 +1,9 @@
+---
+rolebindings:
+- namespace: blog
+  create_namespace: true
+  users:
+  - name: tmaki@vmware.com
+    clusterroles:
+    - app-editor
+    - edit
