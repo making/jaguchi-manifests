@@ -1,7 +1,7 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: password-editor
+  name: clusterrole-aggregates
   namespace: kapp
 spec:
   serviceAccountName: kapp
@@ -9,7 +9,7 @@ spec:
   - git:
       url: https://github.com/tanzu-japan/jaguchi-manifests.git
       ref: origin/main
-      subPath: common/password-editor
+      subPath: common/clusterrole-aggregates
   syncPeriod: 3h
   template:
   - ytt:
