@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metadata-store-ingress-tls
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
+type: Opaque
+stringData:
+  metadata-store-ingress-tls.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"metadata-store-ingress"}, "kind": "HTTPProxy"})
+    ---
+    spec:
+      virtualhost:
+        tls:
+          secretName: tanzu-system-ingress/cnrs-default-tls
+
+    #@overlay/match by=overlay.subset({"metadata":{"name":"ingress-cert"}, "kind": "Certificate"})
+    #@overlay/remove
+    ---

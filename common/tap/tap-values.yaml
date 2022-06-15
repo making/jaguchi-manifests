@@ -117,6 +117,8 @@ stringData:
 
     metadata_store:
       app_service_type: ClusterIP
+      ingress_enabled: "true"
+      ingress_domain: (@= data.values.base_domain @)
 
     grype:
       namespace: (@= data.values.grype.namespace @)
@@ -140,3 +142,6 @@ stringData:
     - name: ootb-templates
       secrets:
       - name: ootb-templates-multiple-pipelines
+    - name: metadata-store
+      secrets:
+      - name: metadata-store-ingress-tls
