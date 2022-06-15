@@ -20,7 +20,7 @@ spec:
   - ytt:
       paths:
       - 0/config
-      - 0/schema.yaml
+      #- 0/schema.yaml
       - 1/common/tap-users
       valuesFrom:
       - path: 1/jaguchi/config/platform/tap-users/tap-users-data-values.yaml
