@@ -88,4 +88,83 @@ subjects:
 - kind: User
   name: #@ user.email
 #@ end
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: #@ "grype-{}-tap-install-cluster-role".format(namespace)
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: #@ "grype-{}-tap-install-cluster-rolebinding".format(namespace)
+    tkg.tanzu.vmware.com/tanzu-package-Secret: #@ "grype-{}-tap-install-values".format(namespace)
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: #@ "grype-{}-tap-install-sa".format(namespace)
+    kapp.k14s.io/change-rule.create-order.0: #@ "upsert after upserting grype-{}-tap-install-rbac".format(namespace)
+    kapp.k14s.io/change-rule.delete-order.0: #@ "delete before deleting grype-{}-tap-install-rbac".format(namespace)
+    kapp.k14s.io/change-rule.create-order.1: #@ "upsert after upserting grype-{}-tap-install-values".format(namespace)
+    kapp.k14s.io/change-rule.delete-order.1: #@ "delete before deleting grype-{}-tap-install-values".format(namespace)
+  name: #@ "grype-{}".format(namespace)
+  namespace: tap-install
+spec:
+  packageRef:
+    refName: grype.scanning.apps.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.1.1
+  serviceAccountName: #@ "grype-{}-tap-install-sa".format(namespace)
+  values:
+  - secretRef:
+      name: #@ "grype-{}-tap-install-values".format(namespace)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: #@ "grype-{}".format(namespace)
+    kapp.k14s.io/change-group: #@ "grype-{}-tap-install-rbac".format(namespace)
+  name: #@ "grype-{}-tap-install-cluster-role".format(namespace)
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: #@ "grype-{}".format(namespace)
+    kapp.k14s.io/change-group: #@ "grype-{}-tap-install-rbac".format(namespace)
+  name: #@ "grype-{}-tap-install-cluster-rolebinding".format(namespace)
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: #@ "grype-{}-tap-install-cluster-role".format(namespace)
+subjects:
+- kind: ServiceAccount
+  name: #@ "grype-{}-tap-install-sa".format(namespace)
+  namespace: tap-install
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: #@ "grype-{}".format(namespace)
+    kapp.k14s.io/change-group: #@ "grype-{}-tap-install-rbac".format(namespace)
+  name: #@ "grype-{}-tap-install-sa".format(namespace)
+  namespace: tap-install
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: #@ "grype-{}".format(namespace)
+    kapp.k14s.io/change-group: #@ "grype-{}-tap-install-values".format(namespace)
+  name: #@ "grype-{}-tap-install-values".format(namespace)
+  namespace: tap-install
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  values.yml: |
+    namespace: (@= namespace @)
+    targetImagePullSecret: registry-credentials
 #@ end
