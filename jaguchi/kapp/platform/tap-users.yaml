@@ -10,6 +10,8 @@ metadata:
 spec:
   serviceAccountName: kapp
   fetch:
+  - imgpkgBundle:
+      image: ghcr.io/making/rbac-mgmt-bundle:0.0.1
   - git:
       url: https://github.com/tanzu-japan/jaguchi-manifests.git
       ref: origin/main
@@ -17,9 +19,12 @@ spec:
   template:
   - ytt:
       paths:
-      - common/tap-users
+      - 0/config
+      - 0/schema.yaml
+      - 1/common/tap-users
       valuesFrom:
-      - path: jaguchi/config/platform/tap-users/tap-users-data-values.yaml
+      - path: 1/jaguchi/config/platform/tap-users/tap-users-data-values.yaml
+      - path: 1/jaguchi/config/platform/tap-users/rbac-mgmt-data-values.yaml
   deploy:
   - kapp:
       rawOptions:
