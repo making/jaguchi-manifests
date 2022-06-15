@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-supply-chain-testing-scanning-add-selector
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "ootb-supply-chain-testing-scanning-install-overlays"
+type: Opaque
+stringData:
+  add-selector.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"source-test-scan-to-url"}, "kind": "ClusterSupplyChain"})
+    ---
+    spec:
+      selector:
+        #@overlay/match missing_ok=True
+        apps.jaguchi.maki.lol/has-scans: "true"
