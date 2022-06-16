@@ -44,3 +44,8 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: mmonroe-vmware
+  email: mmonroe@vmware.com
+  clusterroles:
+  - app-editor
+  - edit
