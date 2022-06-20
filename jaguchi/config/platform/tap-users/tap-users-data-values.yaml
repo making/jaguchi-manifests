@@ -39,6 +39,7 @@ users:
   clusterroles:
   - app-editor
   - edit
+  - app-viewer-cluster-access
 - name: justeh
   email: jordan.fish.murray@gmail.com
   clusterroles:
@@ -49,6 +50,7 @@ users:
   clusterroles:
   - app-editor
   - edit
+  - app-viewer-cluster-access
 - name: tsurutan
   email: ishaninaritaina623@gmail.com
   clusterroles:
