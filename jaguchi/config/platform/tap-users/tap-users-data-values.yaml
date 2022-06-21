@@ -56,3 +56,8 @@ users:
   clusterroles:
   - app-editor
   - edit
+- name: kayleema
+  email: kmann@pivotal.io
+  clusterroles:
+  - app-editor
+  - edit
