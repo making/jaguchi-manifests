@@ -2,6 +2,9 @@
 rolebindings:
 - namespace: blog
   create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
   users:
   - name: tmaki@vmware.com
     clusterroles:
