@@ -10,3 +10,12 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: making-bot
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: makingx+bot@gmail.com
+    clusterroles:
+    - app-editor
