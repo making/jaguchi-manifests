@@ -10,11 +10,6 @@ users:
   clusterroles:
   - app-editor
   - edit
-- name: justeh
-  email: jordan.fish.murray@gmail.com
-  clusterroles:
-  - app-editor
-  - edit
 - name: mmonroe-vmware
   email: mmonroe@vmware.com
   clusterroles:
