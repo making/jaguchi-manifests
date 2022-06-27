@@ -33,4 +33,4 @@ spec:
       - --diff-mask=true
       inspect:
         rawOptions:
-        - --tree=true
+        - --tree=false
