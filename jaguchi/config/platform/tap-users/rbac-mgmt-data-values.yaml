@@ -51,3 +51,13 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: kojiri
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: kojiri@vmware.com
+    clusterroles:
+    - app-editor
+    - edit
