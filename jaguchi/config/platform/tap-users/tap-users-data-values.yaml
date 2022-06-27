@@ -10,11 +10,6 @@ users:
   clusterroles:
   - app-editor
   - edit
-- name: tsurutan
-  email: ishaninaritaina623@gmail.com
-  clusterroles:
-  - app-editor
-  - edit
 - name: kayleema
   email: kmann@pivotal.io
   clusterroles:

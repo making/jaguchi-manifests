@@ -93,3 +93,13 @@ rolebindings:
     - app-editor
     - edit
     - app-viewer-cluster-access
+- namespace: tsurutan
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: ishaninaritaina623@gmail.com
+    clusterroles:
+    - app-editor
+    - edit
