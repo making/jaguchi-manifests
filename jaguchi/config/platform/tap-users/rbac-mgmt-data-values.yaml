@@ -1,5 +1,6 @@
 ---
 rolebindings:
+#! per project
 - namespace: blog
   create_namespace: true
   tap:
@@ -10,6 +11,7 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+#! per developer
 - namespace: making-bot
   create_namespace: true
   tap:
@@ -26,6 +28,16 @@ rolebindings:
     service_account: default
   users:
   - name: imurata@vmware.com
+    clusterroles:
+    - app-editor
+    - edit
+- namespace: gigiyy
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: guixin.zhu@yahoo.com
     clusterroles:
     - app-editor
     - edit
