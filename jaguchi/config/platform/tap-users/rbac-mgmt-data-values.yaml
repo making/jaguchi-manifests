@@ -41,3 +41,13 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: hirosat
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: hirotaka0426@gmail.com
+    clusterroles:
+    - app-editor
+    - edit
