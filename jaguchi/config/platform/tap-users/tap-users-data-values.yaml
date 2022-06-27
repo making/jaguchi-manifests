@@ -10,12 +10,6 @@ users:
   clusterroles:
   - app-editor
   - edit
-- name: mmonroe-vmware
-  email: mmonroe@vmware.com
-  clusterroles:
-  - app-editor
-  - edit
-  - app-viewer-cluster-access
 - name: tsurutan
   email: ishaninaritaina623@gmail.com
   clusterroles:

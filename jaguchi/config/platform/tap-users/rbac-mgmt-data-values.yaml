@@ -82,3 +82,14 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: mmonroe-vmware
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: mmonroe@vmware.com
+    clusterroles:
+    - app-editor
+    - edit
+    - app-viewer-cluster-access
