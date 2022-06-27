@@ -103,3 +103,13 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: kayleema
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: kmann@pivotal.io
+    clusterroles:
+    - app-editor
+    - edit
