@@ -61,3 +61,14 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: balnbibarbi
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: msanderson@vmware.com
+    clusterroles:
+    - app-editor
+    - edit
+    - app-viewer-cluster-access

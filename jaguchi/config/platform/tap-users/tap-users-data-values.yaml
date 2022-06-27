@@ -10,12 +10,6 @@ users:
   clusterroles:
   - app-editor
   - edit
-- name: balnbibarbi
-  email: msanderson@vmware.com
-  clusterroles:
-  - app-editor
-  - edit
-  - app-viewer-cluster-access
 - name: justeh
   email: jordan.fish.murray@gmail.com
   clusterroles:
