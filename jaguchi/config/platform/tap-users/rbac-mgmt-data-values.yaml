@@ -19,3 +19,13 @@ rolebindings:
   - name: makingx+bot@gmail.com
     clusterroles:
     - app-editor
+- namespace: imurata
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: imurata@vmware.com
+    clusterroles:
+    - app-editor
+    - edit
