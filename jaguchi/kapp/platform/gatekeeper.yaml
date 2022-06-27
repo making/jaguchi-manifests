@@ -146,7 +146,7 @@ spec:
                           kinds: ["Pod"]
                         namespaceSelector:
                           matchLabels:
-                            role: tap-developer
+                            rbac-mgmt: managed
                     ---
                     apiVersion: constraints.gatekeeper.sh/v1beta1
                     kind: K8sPSPHostNamespace
@@ -159,7 +159,7 @@ spec:
                           kinds: ["Pod"]
                         namespaceSelector:
                           matchLabels:
-                            role: tap-developer
+                            rbac-mgmt: managed
             syncPeriod: 10m
             template:
             - ytt:
