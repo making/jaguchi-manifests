@@ -1,7 +1,3 @@
 service_account: default
-users:
-- name: making
-  email: tmaki@vmware.com
-  clusterroles:
-  - app-editor
-  - edit
+#! migrated to rbac-mgmt-data-values.yaml
+users: [ ]
