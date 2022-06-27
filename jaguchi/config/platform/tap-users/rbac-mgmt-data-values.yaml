@@ -61,6 +61,16 @@ rolebindings:
     clusterroles:
     - app-editor
     - edit
+- namespace: boltKrank
+  create_namespace: true
+  tap:
+    enabled: true
+    service_account: default
+  users:
+  - name: simon.anderson111@gmail.com
+    clusterroles:
+    - app-editor
+    - edit
 - namespace: balnbibarbi
   create_namespace: true
   tap:
