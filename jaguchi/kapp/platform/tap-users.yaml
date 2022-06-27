@@ -20,6 +20,7 @@ spec:
   - ytt:
       paths:
       - 0/config
+      - 0/kapp-config.yaml
       #- 0/schema.yaml
       - 1/common/tap-users
       valuesFrom:
