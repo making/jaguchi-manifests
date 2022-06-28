@@ -5,7 +5,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: tmaki@vmware.com
     clusterroles:
@@ -16,7 +15,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: makingx+bot@gmail.com
     clusterroles:
@@ -25,7 +23,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: tmaki@vmware.com
     clusterroles:
@@ -35,7 +32,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: imurata@vmware.com
     clusterroles:
@@ -45,7 +41,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: guixin.zhu@yahoo.com
     clusterroles:
@@ -55,7 +50,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: hirotaka0426@gmail.com
     clusterroles:
@@ -65,7 +59,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: kojiri@vmware.com
     clusterroles:
@@ -75,7 +68,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: simon.anderson111@gmail.com
     clusterroles:
@@ -85,7 +77,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: msanderson@vmware.com
     clusterroles:
@@ -96,7 +87,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: jordan.fish.murray@gmail.com
     clusterroles:
@@ -106,7 +96,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: mmonroe@vmware.com
     clusterroles:
@@ -117,7 +106,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: ishaninaritaina623@gmail.com
     clusterroles:
@@ -127,7 +115,6 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
-    service_account: default
   users:
   - name: kmann@pivotal.io
     clusterroles:
