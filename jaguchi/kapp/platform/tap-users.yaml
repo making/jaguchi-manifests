@@ -21,10 +21,10 @@ spec:
       paths:
       - 0/config
       - 0/kapp-config.yaml
-      #- 0/schema.yaml
-      - 1/common/tap-users
+      - 0/schema.yaml
+      #- 1/common/tap-users
       valuesFrom:
-      - path: 1/jaguchi/config/platform/tap-users/tap-users-data-values.yaml
+      #- path: 1/jaguchi/config/platform/tap-users/tap-users-data-values.yaml
       - path: 1/jaguchi/config/platform/tap-users/rbac-mgmt-data-values.yaml
   deploy:
   - kapp:
