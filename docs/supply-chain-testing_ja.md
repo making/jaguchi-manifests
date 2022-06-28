@@ -167,3 +167,147 @@ build.kpack.io/spring-music-build-1   ghcr.io/jaguchi/spring-music-making@sha256
 ```
 tanzu apps workload delete spring-music -n ${NAMESPACE} -y
 ```
+
+### キャッシュを使用したい場合 
+
+#### Maven
+
+```yaml
+NAMESPACE=...
+
+cat <<EOF > hello-servlet-pipeline-cache-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hello-servlet-pipeline-cache
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: "1Gi"
+EOF
+
+kubectl apply -f hello-servlet-pipeline-cache-pvc.yaml -n ${NAMESPACE}
+```
+
+```yaml
+cat <<'EOF' > pipeline-maven.yaml
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: maven-test-pipeline
+  labels:
+    apps.tanzu.vmware.com/pipeline: test
+    apps.jaguchi.maki.lol/test-type: maven-jdk-17
+spec:
+  params:
+  - name: source-url
+  - name: source-revision
+  workspaces:
+  - name: cache
+  tasks:
+  - name: test
+    params:
+    - name: source-url
+      value: $(params.source-url)
+    - name: source-revision
+      value: $(params.source-revision)
+    workspaces:
+    - name: cache
+      workspace: cache
+    taskSpec:
+      params:
+      - name: source-url
+      - name: source-revision
+      workspaces:
+      - name: cache
+      steps:
+      - name: test
+        image: eclipse-temurin:17
+        script: |-
+          set -ex
+          rm -rf ~/.m2
+          mkdir -p $(workspaces.cache.path)/.m2
+          ln -fs $(workspaces.cache.path)/.m2 ~/.m2
+          cd `mktemp -d`
+          curl -s $(params.source-url) | tar -xzvf -
+          ./mvnw clean test -V --no-transfer-progress
+EOF
+
+kubectl apply -f pipeline-maven.yaml -n ${NAMESPACE}
+
+# To Re-run the pipeline
+kubectl delete pipelinerun -n ${NAMESPACE} -l app.kubernetes.io/part-of=hello-servlet
+```
+
+#### Gradle
+
+```yaml
+NAMESPACE=...
+
+cat <<EOF > spring-music-pipeline-cache-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spring-music-pipeline-cache
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: "1Gi"
+EOF
+
+kubectl apply -f spring-music-pipeline-cache-pvc.yaml -n ${NAMESPACE}
+```
+
+```yaml
+cat <<'EOF' > pipeline-gradle.yaml
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: gradle-test-pipeline
+  labels:
+    apps.tanzu.vmware.com/pipeline: test
+    apps.jaguchi.maki.lol/test-type: gradle-jdk-17
+spec:
+  params:
+  - name: source-url
+  - name: source-revision
+  workspaces:
+  - name: cache
+  tasks:
+  - name: test
+    params:
+    - name: source-url
+      value: $(params.source-url)
+    - name: source-revision
+      value: $(params.source-revision)
+    workspaces:
+    - name: cache
+      workspace: cache
+    taskSpec:
+      params:
+      - name: source-url
+      - name: source-revision
+      workspaces:
+      - name: cache
+      steps:
+      - name: test
+        image: eclipse-temurin:17
+        script: |-
+          set -ex
+          rm -rf ~/.m2
+          mkdir -p $(workspaces.cache.path)/.gradle
+          ln -fs $(workspaces.cache.path)/.gradle ~/.gradle
+          cd `mktemp -d`
+          curl -s $(params.source-url) | tar -xzvf -
+          ./gradlew --no-daemon test
+EOF
+
+kubectl apply -f pipeline-gradle.yaml -n ${NAMESPACE}
+
+# To Re-run the pipeline
+kubectl delete pipelinerun -n ${NAMESPACE} -l app.kubernetes.io/part-of=spring-music
+```
