@@ -18,4 +18,4 @@ stringData:
           workspaces:
           - name: cache
             persistentVolumeClaim:
-              claimName: $(runnable.metadata.namespace)$-pipeline-cache
+              claimName: $(runnable.metadata.name)$-pipeline-cache
