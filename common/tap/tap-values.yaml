@@ -137,9 +137,9 @@ stringData:
       - name: cnrs-default-tls
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-slim
-    - name: learningcenter
-      secrets:
-      - name: learningcenter-certificate
+    #! - name: learningcenter
+    #!   secrets:
+    #!   - name: learningcenter-certificate
     - name: ootb-templates
       secrets:
       - name: ootb-templates-multiple-pipelines
@@ -147,3 +147,7 @@ stringData:
     - name: metadata-store
       secrets:
       - name: metadata-store-ingress-tls
+    
+    excluded_packages:
+    - learningcenter.tanzu.vmware.com 
+    - workshops.learningcenter.tanzu.vmware.com
