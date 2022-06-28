@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-slim
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
+type: Opaque
+stringData:
+  cnrs-slim.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"knative-eventing"}}), expects="1+"
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"knative-sources"}}), expects="1+"
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"triggermesh"}}), expects="1+"
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"vmware-sources"}}), expects="1+"
+    #@overlay/remove
+    ---
