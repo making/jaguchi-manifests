@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-cache-workspace
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
+type: Opaque
+stringData:
+  cache-workspace.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"tekton-source-pipelinerun"}, "kind": "ClusterRunTemplate"})
+    ---
+    spec:
+      template:
+        spec:
+          #@overlay/match missing_ok=True
+          workspaces:
+          - name: cache
+            persistentVolumeClaim:
+              claimName: $(runnable.metadata.namespace)$-pipeline-cache

@@ -142,6 +142,7 @@ stringData:
     - name: ootb-templates
       secrets:
       - name: ootb-templates-multiple-pipelines
+      - name: ootb-templates-cache-workspace
     - name: metadata-store
       secrets:
       - name: metadata-store-ingress-tls
