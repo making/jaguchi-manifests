@@ -26,6 +26,7 @@ stringData:
       tanzunet_username: (@= data.values.tanzunet.username @)
       tanzunet_password: (@= data.values.tanzunet.password @)
       enable_automatic_dependency_updates: true
+      descriptor_name: (@= data.values.buildservice.descriptor_name @)
 
     supply_chain: (@= data.values.supply_chain.type @)
 

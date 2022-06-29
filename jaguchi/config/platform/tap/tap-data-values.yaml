@@ -9,3 +9,5 @@ grype:
   namespace: default
 recursive_nameservers:
 - 10.90.12.53:53
+buildservice:
+  descriptor_name: full
