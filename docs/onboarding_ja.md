@@ -226,4 +226,3 @@ tanzu apps workload delete spring-music -n ${NAMESPACE} -y
 * [Supply Chainにtestを追加](supply-chain-testing_ja.md)
 * [MongoDBインスタンスの作成とバインド](mongodb_ja.md)
 * [Tanzu RabbitMQ for Kubernetesインスタンスの作成とバインド](rabbitmq_ja.md)
-* [アプリをインターネットに公開する](publish-apps-to-internet_ja.md)

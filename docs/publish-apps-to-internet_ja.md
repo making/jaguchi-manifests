@@ -1,5 +1,7 @@
 ## アプリをインターネットに公開する
 
+> ⚠️ 現在、この機能のサポートを中止しています
+
 `*.run.jaguchi.maki.lol`ドメインでデプロイしたアプリにアクセスすることでインターネット経由でアプリにアクセスできます。
 ドメインは [DomainMapping](https://knative.dev/docs/serving/services/custom-domains) で追加できます。
 
