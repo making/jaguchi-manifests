@@ -26,31 +26,33 @@ Go to https://tap-gui.jaguchi.maki.lol/settings and make sure your username and 
 
 Next, we will create a namespace for Developer and configure RBAC ( [reference document](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install-components.html#setup) ).
 
-Go to https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platform/tap-users/tap-users-data-values.yaml and click the edit button as bellow.
+Go to https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platform/tap-users/rbac-mgmt-data-values.yaml and click the edit button as bellow.
 
-<img src="https://user-images.githubusercontent.com/106908/167986932-bbd793ad-b31c-4064-8f0a-771d04109c3e.png">
+![image](https://user-images.githubusercontent.com/106908/179894521-24b3d560-7961-4566-9fcf-55a8df529a8c.png)
 
 Add the following YAML to `users`.
 
 ```yaml
-- name: <GitHub Account Name>
-  email: <Email Address displayed in the TAP GUI Profile>
-  clusterroles:
-  - app-editor
-  - edit # (optional)
+- namespace: <GitHub Account Name>
+  create_namespace: true
+  tap: { enabled: true }
+  users:
+  - { name: <Email Address displayed in the TAP GUI Profile>, clusterroles: [ app-editor ] }
+  # or - { name: <Email Address displayed in the TAP GUI Profile>, clusterroles: [ app-editor, edit ] }
 ```
 
 Add only `app-editor` if it is enough to create the K8s resources (Workload, etc.) required for TAP, and `edit` if you want to create K8s (Deployment, Pod, etc.) other than TAP under the `clusterroles`.
 
 **Example**
 ```yaml
-- name: making-bot
-  email: makingx+bot@gmail.com
-  clusterroles:
-  - app-editor
+- namespace: making-bot
+  create_namespace: true
+  tap: { enabled: true }
+  users:
+  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor ] }
 ```
 
-<img src="https://user-images.githubusercontent.com/106908/167987196-981c96bc-eec4-4dd9-ad09-91e0dcd785f9.png">
+![image](https://user-images.githubusercontent.com/106908/179894858-1483677b-efbb-487f-971c-f0f6da8c9d29.png)
 
 Press the "Propose changes" button.
 
@@ -58,7 +60,7 @@ Press the "Propose changes" button.
 
 Check the YAML diff and press the "Create pull request" button.
 
-<img src="https://user-images.githubusercontent.com/106908/167992033-25dc2a12-acfe-4de7-a988-9f24181471a3.png">
+<img src="https://user-images.githubusercontent.com/24785695/179895049-f8d23b07-f470-4cd0-add3-d75de9ed08e4.png">
 
 Press the "Create pull request" button again.
 <img src="https://user-images.githubusercontent.com/106908/167992818-b3daba6b-8b6f-48c0-9be4-ac461d4c413d.png">

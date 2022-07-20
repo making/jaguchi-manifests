@@ -27,30 +27,33 @@ https://tap-gui.jaguchi.maki.lol/settings にアクセスして、Profileのユ�
 Developer用のNamespaceの作成とRBACの設定を行います ([参考ドキュメント](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install-components.html#setup
 ))。
 
-https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platform/tap-users/tap-users-data-values.yaml にアクセスして、編集ボタンをクリックしてください。
+https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platform/tap-users/rbac-mgmt-data-values.yaml にアクセスして、編集ボタンをクリックしてください。
 
-<img src="https://user-images.githubusercontent.com/106908/167986932-bbd793ad-b31c-4064-8f0a-771d04109c3e.png">
+![image](https://user-images.githubusercontent.com/106908/179894521-24b3d560-7961-4566-9fcf-55a8df529a8c.png)
 
 `users`に次のYAMLを追記してください。
 
 ```yaml
-- name: <GitHubのアカウント名>
-  email: <TAP GUIのProfileに表示されているemailアドレス>
-  clusterroles:
-  - app-editor
-  - edit # (optional)
+- namespace: <GitHubのアカウント名>
+  create_namespace: true
+  tap: { enabled: true }
+  users:
+  - { name: <TAP GUIのProfileに表示されているemailアドレス>, clusterroles: [ app-editor ] }
+  # or - { name: <TAP GUIのProfileに表示されているemailアドレス>, clusterroles: [ app-editor, edit ] }
 ```
+
 `clusterroles`にはTAPに必要なK8sリソース(Workloadなど)作成するだけで十分な場合は`app-editor`のみを、TAP以外のK8s(Deployment, Podなど)も作成したい場合は`edit`も追加してください。
 
 **記述例**
 ```yaml
-- name: making-bot
-  email: makingx+bot@gmail.com
-  clusterroles:
-  - app-editor
+- namespace: making-bot
+  create_namespace: true
+  tap: { enabled: true }
+  users:
+  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor ] }
 ```
 
-<img src="https://user-images.githubusercontent.com/106908/167987196-981c96bc-eec4-4dd9-ad09-91e0dcd785f9.png">
+![image](https://user-images.githubusercontent.com/106908/179894858-1483677b-efbb-487f-971c-f0f6da8c9d29.png)
 
 "Propose changes"ボタンを押してください。
 
@@ -58,7 +61,7 @@ https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platfo
 
 YAMLの差分を確認して、"Create pull request"ボタンを押してください。
 
-<img src="https://user-images.githubusercontent.com/106908/167992033-25dc2a12-acfe-4de7-a988-9f24181471a3.png">
+<img src="https://user-images.githubusercontent.com/24785695/179895049-f8d23b07-f470-4cd0-add3-d75de9ed08e4.png">
 
 もう一度、"Create pull request"ボタンを押してください。
 <img src="https://user-images.githubusercontent.com/106908/167992818-b3daba6b-8b6f-48c0-9be4-ac461d4c413d.png">
