@@ -59,7 +59,11 @@ stringData:
         secretName: (@= data.values.default_tls.secret_name @)
         namespace: (@= data.values.default_tls.namespace @)
       app_config:
+        customize:
+          custom_name: (@= data.values.custom_name @)
+          custom_logo: (@= data.values.custom_logo @)
         app:
+          title: (@= data.values.custom_name @)
           baseUrl: https://tap-gui.(@= data.values.base_domain @)
         backend:
           baseUrl: https://tap-gui.(@= data.values.base_domain @)
