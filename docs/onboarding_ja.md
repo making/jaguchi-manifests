@@ -38,11 +38,11 @@ https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platfo
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: <TAP GUIのProfileに表示されているemailアドレス>, clusterroles: [ app-editor ] }
-  # or - { name: <TAP GUIのProfileに表示されているemailアドレス>, clusterroles: [ app-editor, edit ] }
+  - { name: <TAP GUIのProfileに表示されているemailアドレス>, clusterroles: [ app-editor, app-editor-cluster-access ] }
+  # or - { name: <TAP GUIのProfileに表示されているemailアドレス>, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 ```
 
-`clusterroles`にはTAPに必要なK8sリソース(Workloadなど)作成するだけで十分な場合は`app-editor`のみを、TAP以外のK8s(Deployment, Podなど)も作成したい場合は`edit`も追加してください。
+`clusterroles`にはTAPに必要なK8sリソース(Workloadなど)作成するだけで十分な場合は`app-editor`と`app-editor-cluster-access`のみを、TAP以外のK8s(Deployment, Podなど)も作成したい場合は`edit`も追加してください。
 
 **記述例**
 ```yaml
@@ -50,7 +50,7 @@ https://github.com/tanzu-japan/jaguchi-manifests/blob/main/jaguchi/config/platfo
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor ] }
+  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access ] }
 ```
 
 ![image](https://user-images.githubusercontent.com/106908/179894858-1483677b-efbb-487f-971c-f0f6da8c9d29.png)

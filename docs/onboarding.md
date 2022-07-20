@@ -37,11 +37,11 @@ Add the following YAML to `users`.
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: <Email Address displayed in the TAP GUI Profile>, clusterroles: [ app-editor ] }
-  # or - { name: <Email Address displayed in the TAP GUI Profile>, clusterroles: [ app-editor, edit ] }
+  - { name: <Email Address displayed in the TAP GUI Profile>, clusterroles: [ app-editor, app-editor-cluster-access ] }
+  # or - { name: <Email Address displayed in the TAP GUI Profile>, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 ```
 
-Add only `app-editor` if it is enough to create the K8s resources (Workload, etc.) required for TAP, and `edit` if you want to create K8s (Deployment, Pod, etc.) other than TAP under the `clusterroles`.
+Add only `app-editor` and `app-editor-cluster-access` if it is enough to create the K8s resources (Workload, etc.) required for TAP, and `edit` if you want to create K8s (Deployment, Pod, etc.) other than TAP under the `clusterroles`.
 
 **Example**
 ```yaml
@@ -49,7 +49,7 @@ Add only `app-editor` if it is enough to create the K8s resources (Workload, etc
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor ] }
+  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access ] }
 ```
 
 ![image](https://user-images.githubusercontent.com/106908/179894858-1483677b-efbb-487f-971c-f0f6da8c9d29.png)
