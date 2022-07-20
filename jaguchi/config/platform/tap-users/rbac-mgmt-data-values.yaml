@@ -5,65 +5,65 @@ rolebindings:
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: tmaki@vmware.com, clusterroles: [ app-editor, edit ] }
+  - { name: tmaki@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 #! per developer
 - namespace: making-bot
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor ] }
+  - { name: makingx+bot@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access ] }
 - namespace: making
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: tmaki@vmware.com, clusterroles: [ app-editor, edit ] }
+  - { name: tmaki@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: imurata
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: imurata@vmware.com, clusterroles: [ app-editor, edit ] }
+  - { name: imurata@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: gigiyy
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: guixin.zhu@yahoo.com, clusterroles: [ app-editor, edit ] }
+  - { name: guixin.zhu@yahoo.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: hirosat
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: hirotaka0426@gmail.com, clusterroles: [ app-editor, edit ] }
+  - { name: hirotaka0426@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: kojiri
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: kojiri@vmware.com, clusterroles: [ app-editor, edit ] }
+  - { name: kojiri@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: boltKrank
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: simon.anderson111@gmail.com, clusterroles: [ app-editor, edit ] }
+  - { name: simon.anderson111@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: balnbibarbi
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: msanderson@vmware.com, clusterroles: [ app-editor, edit, app-viewer-cluster-access ] }
+  - { name: msanderson@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: justeh
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: jordan.fish.murray@gmail.com, clusterroles: [ app-editor, edit ] }
+  - { name: jordan.fish.murray@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: mmonroe-vmware
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: mmonroe@vmware.com, clusterroles: [ app-editor, edit, app-viewer-cluster-access ] }
+  - { name: mmonroe@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: tsurutan
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: ishaninaritaina623@gmail.com, clusterroles: [ app-editor, edit ] }
+  - { name: ishaninaritaina623@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: kayleema
   create_namespace: true
   tap: { enabled: true }
   users:
-  - { name: kmann@pivotal.io, clusterroles: [ app-editor, edit ] }
+  - { name: kmann@pivotal.io, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
