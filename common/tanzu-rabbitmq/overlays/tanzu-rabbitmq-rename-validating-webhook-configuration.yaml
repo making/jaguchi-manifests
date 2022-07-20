@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tanzu-rabbitmq-rename-validating-webhook-configuration
+  namespace: tds-system
+  annotations:
+    kapp.k14s.io/change-group: "tanzu-rabbitmq-overlays"
+stringData:
+  tanzu-rabbitmq-rename-validating-webhook-configuration.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"validating-webhook-configuration"}, "kind": "ValidatingWebhookConfiguration"})
+    ---
+    metadata:
+      #@overlay/replace
+      name: rabbitmq-validating-webhook-configuration

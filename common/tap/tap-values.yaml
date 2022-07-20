@@ -23,10 +23,7 @@ stringData:
       kp_default_repository: (@= data.values.registry.server @)/(@= data.values.registry.repository @)/build-service
       kp_default_repository_username: (@= data.values.registry.username @)
       kp_default_repository_password: (@= data.values.registry.password @)
-      tanzunet_username: (@= data.values.tanzunet.username @)
-      tanzunet_password: (@= data.values.tanzunet.password @)
-      enable_automatic_dependency_updates: true
-      descriptor_name: (@= data.values.buildservice.descriptor_name @)
+      enable_synced_secrets: true
 
     supply_chain: (@= data.values.supply_chain.type @)
 
@@ -53,11 +50,6 @@ stringData:
         service:
           type: LoadBalancer
           externalTrafficPolicy: Local
-
-    learningcenter:
-      ingressDomain: learningcenter.(@= data.values.base_domain @)
-      ingressSecret:
-        secretName: learningcenter-tls
 
     tap_gui:
       ingressEnabled: true
@@ -121,9 +113,9 @@ stringData:
       ingress_enabled: "true"
       ingress_domain: (@= data.values.base_domain @)
 
-    grype:
-      namespace: (@= data.values.grype.namespace @)
-      targetImagePullSecret: registry-credentials
+    scanning:
+      metadataStore:
+        url: "" #! Disable embedded integration since it's deprecated
 
     package_overlays:
     - name: buildservice
@@ -138,9 +130,6 @@ stringData:
       - name: cnrs-default-tls
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-slim
-    #! - name: learningcenter
-    #!   secrets:
-    #!   - name: learningcenter-certificate
     - name: ootb-templates
       secrets:
       - name: ootb-templates-multiple-pipelines
@@ -150,5 +139,6 @@ stringData:
       - name: metadata-store-ingress-tls
     
     excluded_packages:
+    - grype.scanning.apps.tanzu.vmware.com
     - learningcenter.tanzu.vmware.com 
     - workshops.learningcenter.tanzu.vmware.com

@@ -19,7 +19,7 @@ spec:
   packageRef:
     refName: tap.tanzu.vmware.com
     versionSelection:
-      constraints: 1.1.1
+      constraints: 1.2.0
   serviceAccountName: tap-tap-install-sa
   values:
   - secretRef:
