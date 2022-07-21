@@ -67,3 +67,8 @@ rolebindings:
   tap: { enabled: true }
   users:
   - { name: kmann@pivotal.io, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
+- namespace: ronakbanka
+  create_namespace: true
+  tap: { enabled: true }
+  users:
+  - { name: rbanka@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access ] }
