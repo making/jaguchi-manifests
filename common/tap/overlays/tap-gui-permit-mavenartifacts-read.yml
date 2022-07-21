@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-gui-permit-mavenartifacts-read
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-overlays"
+type: Opaque
+stringData:
+  tap-gui-permit-mavenartifacts-read.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind": "ClusterRole", "metadata": {"name": "k8s-reader"}}), expects="1+"
+    ---
+    rules:
+      #@overlay/match by=overlay.subset({"apiGroups": ["source.apps.tanzu.vmware.com"]})
+      - resources:
+        - mavenartifacts
