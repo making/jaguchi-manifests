@@ -1,7 +1,7 @@
 ---
 rolebindings:
 #! per project
-- namespace: playgroud
+- namespace: playground
   create_namespace: true
   tap: { enabled: true }
   users:
