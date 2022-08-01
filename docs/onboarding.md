@@ -22,7 +22,7 @@ Go to https://tap-gui.jaguchi.maki.lol/settings and make sure your username and 
 
 <img src="https://user-images.githubusercontent.com/106908/167986313-02033b48-88d7-4833-ac99-043ce0d8cb55.png">
 
-### Crate Namespace and RBAC
+### Create Namespace and RBAC
 
 Next, we will create a namespace for Developer and configure RBAC ( [reference document](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install-components.html#setup) ).
 
