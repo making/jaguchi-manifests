@@ -1,0 +1,27 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: full-tbs-deps-tap-install-cluster-role
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: full-tbs-deps-tap-install-cluster-rolebinding
+    tkg.tanzu.vmware.com/tanzu-package-Secret: full-tbs-deps-tap-install-values
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: full-tbs-deps-tap-install-sa
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting full-tbs-deps-install-rbac"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting full-tbs-deps-install-rbac"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting full-tbs-deps-install-values"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting full-tbs-deps-install-values"
+    kapp.k14s.io/change-rule.create-order.2: "upsert after upserting full-tbs-deps-install-overlays"
+    kapp.k14s.io/change-rule.delete-order.2: "delete before deleting full-tbs-deps-install-overlays"
+  name: full-tbs-deps
+  namespace: tap-install
+spec:
+  packageRef:
+    refName: full-tbs-deps.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.6.0
+      prereleases: {}
+  serviceAccountName: full-tbs-deps-tap-install-sa
+  values:
+  - secretRef:
+      name: full-tbs-deps-tap-install-values

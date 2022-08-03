@@ -1,0 +1,12 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: full-tbs-deps-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "full-tbs-deps-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  full-tbs-deps-values.yml: ""

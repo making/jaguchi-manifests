@@ -1,0 +1,30 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: full-tbs-deps-install
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tbs-full-deps-repositoryl"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tbs-full-deps-repositoryl"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/tanzu-japan/jaguchi-manifests.git
+      ref: origin/main
+      subPath: common/full-tbs-deps
+  syncPeriod: 10m
+  template:
+  - ytt:
+      paths:
+      - "."
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
