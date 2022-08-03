@@ -1,7 +1,7 @@
 ## MongoDBインスタンスの作成とバインド
 
 MongoDBのデプロイには [Bitnami Helm Chart](https://github.com/bitnami/charts/tree/master/bitnami/mongodb) を使用し、 [Direct Secret Reference](https://github.com/servicebinding/spec#direct-secret-reference) でService Bindingでアプリに接続する。
-Secretはsecretgen controllerの [Secret Template](https://github.com/vmware-tanzu/carvel-secretgen-controller/blob/develop/docs/secret-template-field.md) で生成する。
+Secretはsecretgen controllerの [Password](https://github.com/vmware-tanzu/carvel-secretgen-controller/blob/develop/docs/secret-template-field.md) リソースで生成する。
 
 ### Helm ChartからYAML生成
 
