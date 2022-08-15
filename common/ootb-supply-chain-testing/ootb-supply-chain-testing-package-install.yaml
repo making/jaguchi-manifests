@@ -20,7 +20,7 @@ spec:
   packageRef:
     refName: ootb-supply-chain-testing.tanzu.vmware.com
     versionSelection:
-      constraints: 0.8.0-build.4
+      constraints: 0.8.1
       prereleases: {}
   serviceAccountName: ootb-supply-chain-testing-tap-install-sa
   values:
