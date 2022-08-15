@@ -77,3 +77,8 @@ rolebindings:
   tap: { enabled: true }
   users:
   - { name: rbanka@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access ] }
+- namespace: mahata
+  create_namespace: true
+  tap: { enabled: true }
+  users:
+  - { name: mahata777+github@gmail.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
