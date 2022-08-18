@@ -302,7 +302,7 @@ spec:
           mkdir -p $(workspaces.cache.path)/.gradle
           ln -fs $(workspaces.cache.path)/.gradle ~/.gradle
           cd `mktemp -d`
-          curl -s $(params.source-url) | tar -xzvf -
+          curl -s $(params.source-url) | tar -m -xzvf -
           ./gradlew --no-daemon test
 EOF
 
