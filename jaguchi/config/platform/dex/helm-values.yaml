@@ -5,7 +5,7 @@ config:
   issuer: #@ "https://dex.{}".format(data.values.base_domain)
   expiry:
     signingKeys: "180m"
-    idTokens: "180m"
+    idTokens: "1440m"
   logger:
     level: "debug"
     format: "json"
