@@ -81,6 +81,23 @@ stringData:
         secretName: (@= data.values.default_tls.secret_name @)
         namespace: (@= data.values.default_tls.namespace @)
       app_config:
+        kubernetes:
+          serviceLocatorMethod:
+            type: multiTenant
+          clusterLocatorMethods:
+          - type: config
+            clusters:
+            - url: https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}
+              name: host
+              authProvider: serviceAccount
+              serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN}
+              skipTLSVerify: true
+            - url: (@= data.values.run[0].url @)
+              name: (@= data.values.run[0].name @)
+              authProvider: serviceAccount
+              serviceAccountToken: (@= data.values.run[0].token @)
+              skipTLSVerify: false
+              caData: (@= data.values.run[0].ca @)
         customize:
           custom_name: (@= data.values.custom_name @)
           custom_logo: (@= data.values.custom_logo @)
