@@ -27,6 +27,7 @@ spec:
       valuesFrom:
       - path: common/credentials.yaml
       - path: jaguchi/config/platform/tap/tap-data-values.yaml
+      - path: jaguchi/config/platform/tap/credentials.yaml
   deploy:
   - kapp:
       rawOptions:
