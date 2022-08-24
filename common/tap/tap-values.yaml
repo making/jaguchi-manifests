@@ -126,6 +126,8 @@ stringData:
             target: https://github.com/categolj/tap-catalog-info/blob/main/blog-frontend.yaml
           - type: url
             target: https://github.com/categolj/tap-catalog-info/blob/main/blog-translation.yaml
+          - type: url
+            target: https://github.com/categolj/tap-catalog-info/blob/main/blog-ui.yaml
         auth:
           environment: development
           session:
