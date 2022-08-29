@@ -60,7 +60,7 @@ stringData:
         repository: (@= data.values.registry.repository @)
       service_account: (@= data.values.supply_chain.service_account @)
       gitops:
-        commit_strategy: direct
+        commit_strategy: pull_request
         pull_request:
           server_kind: github
           commit_branch: ""
