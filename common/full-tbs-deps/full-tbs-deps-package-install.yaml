@@ -2,6 +2,7 @@ apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
   annotations:
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: full-tbs-deps-add-clusterbuilder
     tkg.tanzu.vmware.com/tanzu-package-ClusterRole: full-tbs-deps-tap-install-cluster-role
     tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: full-tbs-deps-tap-install-cluster-rolebinding
     tkg.tanzu.vmware.com/tanzu-package-Secret: full-tbs-deps-tap-install-values
