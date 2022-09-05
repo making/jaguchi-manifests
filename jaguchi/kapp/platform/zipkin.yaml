@@ -1,0 +1,157 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: zipkin
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: zipkin
+      version: "0.3.0"
+      repository:
+        url: https://openzipkin.github.io/zipkin
+  syncPeriod: 168h
+  template:
+  - helmTemplate:
+      namespace: zipkin
+      valuesFrom:
+      - secretRef:
+          name: zipkin-values
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - "-"
+      inline:
+        paths:
+          namespace.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: zipkin    
+            #@ for kind in [ "Service", "Deployment", "Ingress", "ServiceAccount" ]:
+            #@overlay/match by=overlay.subset({"kind":kind})
+            ---
+            metadata:
+              #@overlay/match missing_ok=True
+              namespace: zipkin
+            #@ end
+          elasticsearch-storage.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"zipkin"}})
+            ---
+            spec:
+              template:
+                spec:
+                  containers:
+                  #@overlay/match by="name"
+                  - name: zipkin
+                    #@overlay/match missing_ok=True
+                    env:
+                    #@overlay/match by="name", missing_ok=True
+                    - name: STORAGE_TYPE
+                      value: elasticsearch
+                    #@overlay/match by="name", missing_ok=True
+                    - name: ES_HOSTS
+                      value: https://elasticsearch-es-http.elastic-stack.svc.cluster.local:9200
+                    #@overlay/match by="name", missing_ok=True
+                    - name: ES_USERNAME
+                      value: elastic
+                    #@overlay/match by="name", missing_ok=True
+                    - name: ES_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: elasticsearch-es-elastic-user
+                          key: elastic    
+                    #@overlay/match by="name", missing_ok=True
+                    - name: ES_SSL_NO_VERIFY
+                      value: "true"
+          elasticsearch-secret.yaml: |
+            apiVersion: secretgen.carvel.dev/v1alpha1
+            kind: SecretExport
+            metadata:
+              name: elasticsearch-es-elastic-user
+              namespace: elastic-stack
+            spec:
+              toNamespace: zipkin
+            ---
+            apiVersion: secretgen.carvel.dev/v1alpha1
+            kind: SecretImport
+            metadata:
+              name: elasticsearch-es-elastic-user
+              namespace: zipkin
+            spec:
+              fromNamespace: elastic-stack
+          zipkin-dependencies.yaml: |
+            apiVersion: batch/v1beta1
+            kind: CronJob
+            metadata:
+              name: zipkin-dependencies
+              namespace: zipkin
+            spec:
+              jobTemplate:
+                metadata:
+                  name: zipkin-dependencies
+                spec:
+                  template:
+                    spec:
+                      containers:
+                      - name: zipkin-dependencies
+                        image: ghcr.io/openzipkin/zipkin-dependencies
+                        env:
+                        - name: STORAGE_TYPE
+                          value: elasticsearch
+                        - name: ES_HOSTS
+                          value: https://elasticsearch-es-http.elastic-stack.svc.cluster.local:9200
+                        - name: ES_USERNAME
+                          value: elastic
+                        - name: ES_PASSWORD
+                          valueFrom:
+                            secretKeyRef:
+                              name: elasticsearch-es-elastic-user
+                              key: elastic    
+                        - name: ES_SSL_NO_VERIFY
+                          value: "true"
+                        securityContext:
+                          allowPrivilegeEscalation: false
+                          runAsNonRoot: true
+                          runAsUser: 1000                      
+                      restartPolicy: OnFailure
+              schedule: "*/15 * * * *"
+  - kbld:
+      paths:
+      - "-"
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      - --app-changes-max-to-keep=3
+      delete:
+        #! Force delete PVCs, since StatefulSet does not delete them
+        rawOptions:
+        - --apply-ignored=true
+      inspect:
+        rawOptions:
+        - --tree=true
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: zipkin-values
+  namespace: kapp
+stringData:
+  values.yml: |
+    # https://github.com/openzipkin/zipkin/tree/master/charts/zipkin
+    replicaCount: 1
+    ingress:
+      enabled: true
+      host: zipkin.jaguchi.maki.lol
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      tls:
+      - hosts:
+        - zipkin.jaguchi.maki.lol
+        secretName: zipkin-tls
