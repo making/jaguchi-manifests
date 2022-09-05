@@ -68,13 +68,6 @@ spec:
                     - name: ES_SSL_NO_VERIFY
                       value: "true"
           elasticsearch-secret.yaml: |
-            apiVersion: secretgen.carvel.dev/v1alpha1
-            kind: SecretExport
-            metadata:
-              name: elasticsearch-es-elastic-user
-              namespace: elastic-stack
-            spec:
-              toNamespace: zipkin
             ---
             apiVersion: secretgen.carvel.dev/v1alpha1
             kind: SecretImport
