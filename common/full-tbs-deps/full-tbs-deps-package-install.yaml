@@ -20,7 +20,7 @@ spec:
   packageRef:
     refName: full-tbs-deps.tanzu.vmware.com
     versionSelection:
-      constraints: 1.6.1
+      constraints: 1.6.3
       prereleases: {}
   serviceAccountName: full-tbs-deps-tap-install-sa
   values:
