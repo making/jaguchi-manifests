@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: full-tbs-deps-add-rust-builder
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "full-tbs-deps-install-overlays"
+type: Opaque
+stringData:
+  full-tbs-deps-add-rust-builder.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"dependency-updater"}, "kind": "TanzuNetDependencyUpdater"})
+    ---
+    spec:
+      inlineDescriptor:
+        clusterStores:
+        #@overlay/match by="name", missing_ok=True
+        - name: default
+          sources:
+          #@overlay/append
+          - image: docker.io/paketocommunity/rust:0.18.0
+        clusterBuilders:
+        #@overlay/match by="name", missing_ok=True
+        - name: base
+          order:
+          #@overlay/append
+          - group:
+            - id: paketo-community/rust
