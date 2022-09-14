@@ -27,6 +27,12 @@ stringData:
           - group:
             - id: paketo-community/rust
         #@overlay/match by="name", missing_ok=True
+        - name: full
+          order:
+          #@overlay/append
+          - group:
+            - id: paketo-community/rust
+        #@overlay/match by="name", missing_ok=True
         - name: tiny
           order:
           #@overlay/append
