@@ -18,7 +18,7 @@ stringData:
         - name: default
           sources:
           #@overlay/append
-          - image: ghcr.io/making/buildpacks/opentelemetry-javaagent:0.1.8
+          - image: ghcr.io/making/buildpacks/opentelemetry-javaagent:0.1.9
         clusterBuilders:
         #@overlay/append
         - name: java-otel
