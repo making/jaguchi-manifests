@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: full-tbs-deps-add-opentelemerty-builder
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "full-tbs-deps-install-overlays"
+type: Opaque
+stringData:
+  full-tbs-deps-add-opentelemerty-builder.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"dependency-updater"}, "kind": "TanzuNetDependencyUpdater"})
+    ---
+    spec:
+      inlineDescriptor:
+        clusterStores:
+        #@overlay/match by="name", missing_ok=True
+        - name: default
+          sources:
+          #@overlay/append
+          - image: ghcr.io/making/buildpacks/opentelemetry-javaagent:0.2.0
+        clusterBuilders:
+        #@overlay/match by="name", missing_ok=True
+        - name: base
+          order:      
+          #@overlay/match by=overlay.subset({"group": [{"id": "tanzu-buildpacks/java"}]}) 
+          - group:        
+            #@overlay/append
+            - id: making/opentelemetry-javaagent
+        #@overlay/match by="name", missing_ok=True
+        - name: full
+          order:      
+          #@overlay/match by=overlay.subset({"group": [{"id": "tanzu-buildpacks/java"}]}) 
+          - group:        
+            #@overlay/append
+            - id: making/opentelemetry-javaagent
