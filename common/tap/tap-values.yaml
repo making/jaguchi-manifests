@@ -108,6 +108,10 @@ stringData:
           baseUrl: https://tap-gui.(@= data.values.base_domain @)
           cors:
             origin: https://tap-gui.(@= data.values.base_domain @)
+          reading:
+            allow:
+            - host: '*.ik.am'
+            - host: '*.maki.lol'
         catalog:
           locations:
           - type: url
