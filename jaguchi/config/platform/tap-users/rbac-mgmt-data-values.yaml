@@ -6,6 +6,7 @@ rolebindings:
   tap: { enabled: true }
   users:
   - { name: tmaki@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
+  - { name: machih@vmware.com, clusterroles: [ app-editor, app-editor-cluster-access, edit ] }
 - namespace: spring-socks
   create_namespace: true
   tap: { enabled: true }
