@@ -6,4 +6,4 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      image: registry.tanzu.vmware.com/build-service/full-tbs-deps-package-repo:1.6.3
+      image: registry.tanzu.vmware.com/build-service/full-tbs-deps-package-repo:1.7.1
